@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "f6948a5a-d2e0-4d34-a417-96933f677849",
+		"name": "GrabFood API",
+		"description": "A collection of API calls for the FeathersJS chat guide at https://docs.feathersjs.com/guides/chat/readme.html",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Create a user",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJ1c2VySWQiOiI1Y2E5YTQxNjAyNWEyZjQ0ZThhZDYzY2QiLCJpYXQiOjE1NTQ2MjQ4MTAsImV4cCI6MTU1NDcxMTIxMCwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIiwianRpIjoiOWQzNzMwNWItMjA2OS00ZGFhLTlmNGEtMTU1ZDIzMDgxNTAyIn0.VxC7K-9QtPMCw5vusJ_086NRGxkTFejILKX4_vaDN-w",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"peter@gmail.com\",\n    \"password\": \"peter\",\n    \"fullname\": \"Peter William\",\n    \"phone\": \"047833902323\",\n    \"avatar\": \"\"\n}"
+				},
+				"url": {
+					"raw": "http://13.70.1.53/users/",
+					"protocol": "http",
+					"host": [
+						"13",
+						"70",
+						"1",
+						"53"
+					],
+					"path": [
+						"users",
+						""
+					]
+				},
+				"description": "For https://docs.feathersjs.com/guides/chat/authentication.html"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Creating a token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"strategy\": \"local\",\n\t\"email\": \"peter@gmail.com\",\n    \"password\": \"peter\"\n}"
+				},
+				"url": {
+					"raw": "http://13.70.1.53/authentication",
+					"protocol": "http",
+					"host": [
+						"13",
+						"70",
+						"1",
+						"53"
+					],
+					"path": [
+						"authentication"
+					]
+				},
+				"description": "For https://docs.feathersjs.com/guides/chat/authentication.html"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get all restaurants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://13.70.1.53/restaurants",
+					"protocol": "http",
+					"host": [
+						"13",
+						"70",
+						"1",
+						"53"
+					],
+					"path": [
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Create restaurant (Only for admin)",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJ1c2VySWQiOiI1Y2FhZmZlMWEzMzdlZDAwMDY5YjYzN2UiLCJzZWNyZXRjb2RlIjoiYzJWamNtVjBZMjlrWlFvPSIsImlhdCI6MTU1NDcxMjg4NSwiZXhwIjoxNTU0Nzk5Mjg1LCJhdWQiOiJodHRwczovL3lvdXJkb21haW4uY29tIiwiaXNzIjoiZmVhdGhlcnMiLCJzdWIiOiJhbm9ueW1vdXMiLCJqdGkiOiJlMjg4MjhhNS1lM2FlLTRmMWEtYjk2Yi0zN2U3YjFiMjNmOTcifQ.3rp1Skq-mrqz78U6mgFrbWdVNPVQtbjqFEwPRJRsXXw",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Feel Coffee\",\n    \"address\": \"Linh Trung, Thu Duc, TP.HCM\",\n    \"phone\": \"02020202345\",\n    \"email\": \"feelcoffee@gmail.com\",\n    \"facebook\": \"www.facebook.com/feelcoffee\",\n    \"rating\": 5,\n    \"products\": [\n        {\n            \"id\": \"1\",\n            \"name\": \"Tra Sua Truyen Thong\",\n            \"price\": 18000,\n            \"category\": \"Tra Sua\"\n        },\n        {\n            \"id\": \"2\",\n            \"name\": \"Tra Sua Tran Chau Cang\",\n            \"price\": 25000,\n            \"category\": \"Tra Sua\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://13.70.1.53/restaurants",
+					"protocol": "http",
+					"host": [
+						"13",
+						"70",
+						"1",
+						"53"
+					],
+					"path": [
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
