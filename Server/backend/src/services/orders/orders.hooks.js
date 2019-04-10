@@ -7,9 +7,9 @@ module.exports = {
   before: {
     all: [authenticate('jwt')],
     find: [authenticate('jwt'),
-      context => {
-        context.params.query.userId = String(context.params.user._id);
-      }
+      //context => {
+      //  context.params.query.userId = String(context.params.user._id);
+      //}
     ],
     get: [authenticate('jwt')],
     create: [authenticate('jwt'),
