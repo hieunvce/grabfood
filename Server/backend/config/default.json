@@ -30,5 +30,5 @@
       "passwordField": "password"
     }
   },
-  "mongodb": "mongodb://mongodb:27017/backend"
+  "mongodb": "mongodb://localhost:27017/backend"
 }
