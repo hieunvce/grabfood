@@ -1,3 +1,84 @@
-<p>
-  restaurant works!
-</p>
+<h2>
+  Restaurant Management
+</h2>
+<mat-toolbar color="!important">
+  <button mat-raised-button (click)="openNewRestaurantForm">Add New Restaurant</button>
+  <span class="fill-remaining-space"></span>
+  <input matInput type="search" placeholder="Search restaurant" value="">
+</mat-toolbar>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef>Address</th>
+      <td mat-cell *matCellDef="let element">{{element.address}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let element">{{element.phone}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let element">{{element.email}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="button">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button>Edit</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm" [class.mat-selected-title]="selectedRows.length && selectable">
+  <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+    <span *ngIf="(selectable && !selectedRows.length) || !selectable" class="mat-title">Title here</span>
+    <span *ngIf="selectedRows.length && selectable" class="mat-body-1">0 item(s) selected</span>
+  </span>
+  <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Search here" (searchDebounce)="search($event)" flex>
+  </td-search-box>
+  <button mat-icon-button>
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</div>
+<mat-divider></mat-divider>
+<td-data-table
+  #dataTable
+  [data]="filteredData"
+  [columns]="columns"
+  [selectable]="selectable"
+  [clickable]="clickable"
+  [multiple]="multiple"
+  [sortable]="true"
+  [sortBy]="sortBy"
+  [resizableColumns]="resizableColumns"
+  [(ngModel)]="selectedRows"
+  [sortOrder]="sortOrder"
+  (sortChange)="sort($event)"
+  (rowClick)="showAlert($event)"
+  [style.height.px]="200">
+</td-data-table>
+<div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+  <h3>No results to display.</h3>
+</div>
+<td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+  <span hide-xs>Rows per page:</span>
+  <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+    <mat-option *ngFor="let size of [50,100,200,500]" [value]="size">
+      {{size}}
+    </mat-option>
+  </mat-select>
+  {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+</td-paging-bar>
