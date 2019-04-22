@@ -1,0 +1,48 @@
+[
+    {
+        "_id": "5cab094736cd340006316f77",
+        "name": "Feel Coffee",
+        "address": "Linh Trung, Thu Duc, TP.HCM",
+        "phone": "02020202345",
+        "email": "feelcoffee@gmail.com",
+        "facebook": "www.facebook.com/feelcoffee",
+        "rating": 5,
+        "products": [
+            {
+                "id": "1",
+                "name": "Tra Sua Truyen Thong",
+                "price": 18000,
+                "category": "Tra Sua"
+            },
+            {
+                "id": "2",
+                "name": "Tra Sua Tran Chau Cang",
+                "price": 25000,
+                "category": "Tra Sua"
+            }
+        ]
+    },
+    {
+        "_id": "5cab09a336cd340006316f78",
+        "name": "Bobabob",
+        "address": "Linh Trung, Thu Duc, TP.HCM",
+        "phone": "0202020202",
+        "email": "bobapop@gmail.com",
+        "facebook": "www.facebook.com/bobabob",
+        "rating": 4,
+        "products": [
+            {
+                "id": "1",
+                "name": "Tra Sua Truyen Thong",
+                "price": 15000,
+                "category": "Tra Sua"
+            },
+            {
+                "id": "2",
+                "name": "Tra Sua Tran Chau",
+                "price": 18000,
+                "category": "Tra Sua"
+            }
+        ]
+    }
+]
