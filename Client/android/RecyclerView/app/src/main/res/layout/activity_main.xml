@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <com.amar.library.ui.StickyScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:stickyHeader="@+id/LayoutFindFood"
+        >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+        >
+
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:inputType="textPersonName"
+            android:text="@string/str_address"
+            android:layout_marginLeft="20dp"
+
+            />
+
+        <ImageButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@id/txtAddress"
+            android:src="@android:drawable/presence_online"
+            android:id="@+id/imgAddress"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgAddress"
+            android:text="Ho chi minh"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/LayoutFindFood"
+        android:background="#F8F8F8"
+        >
+
+        <TextView
+            android:id="@+id/txt_findFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            android:textSize="20dp"
+            android:gravity="center"
+            android:inputType="textPersonName"
+
+            android:text="@string/str_findFood" />
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="27dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/txt_findFood"
+            app:srcCompat="@android:drawable/ic_menu_search"
+
+            />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="27dp"
+            android:src="@drawable/ic_close_circle"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_discover_store"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/RView_Discover"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        ></android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_store_near_you"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/RView_RestaurantNearYou"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                ></android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+
+    </com.amar.library.ui.StickyScrollView>
+</LinearLayout>
