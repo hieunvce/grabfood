@@ -53,8 +53,8 @@ public class DiscoverShopAdapter extends RecyclerView.Adapter<DiscoverShopAdapte
 
         public ViewHoler(@NonNull final View itemView) {
             super(itemView);
-            txtName = (TextView)itemView.findViewById(R.id.txtHinh);
-            imgHinh = (ImageView)itemView.findViewById(R.id.imgHinh);
+            imgHinh = (ImageView)itemView.findViewById(R.id.imgdiscover);
+            txtName = (TextView) itemView.findViewById(R.id.txtdiscover);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
