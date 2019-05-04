@@ -1,12 +1,12 @@
-package com.example.recyclerview;
+package com.example.recyclerview.DTO;
 
-public class DataShop {
+public class DataShopDTO {
     private String HinhAnh;
     private String Ten;
     private String Adddress;
     private String Id;
 
-    public DataShop(String hinhAnh, String ten, String adddress, String id) {
+    public DataShopDTO(String hinhAnh, String ten, String adddress, String id) {
         HinhAnh = hinhAnh;
         Ten = ten;
         Adddress = adddress;

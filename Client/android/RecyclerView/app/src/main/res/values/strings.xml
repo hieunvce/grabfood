@@ -1,9 +1,31 @@
 <resources>
-    <string name="app_name">RecyclerView</string>
+    <string name="app_name">App Order Food</string>
     <string name="str_findFood">Nhập món ăn bạn muốn tìm </string>
     <string name="str_address">Giao tới </string>
     <string name="str_discover_store">Khám phá danh mục </string>
     <string name="str_store_near_you">Quán gần với bạn</string>
-
-
+    <string name="home">Home Page</string>
+    <string name="history">History</string>
+    <string name="header_name">App Order Food Menu</string>
+    <string name="ho_chi_minh">Ho Chi Minh</string>
+    <string name="user">User</string>
+    <string name="food">Food</string>
+    <string name="prices">Price</string>
+    <string name="date">Date</string>
+    <string name="user_history">User History</string>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="paycheck">Thanh Toán </string>
+    <string name="gotocart">Giỏ hàng </string>
 </resources>

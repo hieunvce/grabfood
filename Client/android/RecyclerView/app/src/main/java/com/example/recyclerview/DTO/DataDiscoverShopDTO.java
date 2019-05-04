@@ -1,10 +1,10 @@
-package com.example.recyclerview;
+package com.example.recyclerview.DTO;
 
-public class DataDiscoverShop {
+public class DataDiscoverShopDTO {
     private int HinhAnh;
     private String Ten;
 
-    public DataDiscoverShop(int hinhAnh, String ten) {
+    public DataDiscoverShopDTO(int hinhAnh, String ten) {
         HinhAnh = hinhAnh;
         Ten = ten;
     }
