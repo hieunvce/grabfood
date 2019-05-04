@@ -3,7 +3,17 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="bg_row_background">#fa315b</color>
+    <color name="colorBlue">#5592ed</color>
+    <color name="colorGreen">#5ddb36</color>
+    <color name="colorRed">#e23214</color>
+    <color name="colorWhite">#FFFF</color>
+    <color name="colorYellow">#d3d310</color>
+    <color name="colorOrange">#ce761e</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorGrey">#535353</color>
+    <color name="colorHafWhite">#a9a9a9</color>
     <color name="item_name">#535353</color>
     <color name="description">#a9a9a9</color>
+    <color name="white">#FFFFFF</color>
+    <color name="signupColor">#066e8a</color>
 </resources>

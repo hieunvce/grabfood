@@ -10,36 +10,30 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        app:stickyHeader="@+id/btnGoToCart"
+        app:stickyHeader="@+id/btnCart"
         >
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gotocart"
-                android:id="@+id/btnGoToCart"
-                />
-
-
-
-
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/RView_OrderFood"
+                android:id="@+id/RView_Cart"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
                 >
 
             </android.support.v7.widget.RecyclerView>
-
-
-        </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/paycheck"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/btnCart"
+                />
+        </RelativeLayout>
 
 
     </com.amar.library.ui.StickyScrollView>

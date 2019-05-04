@@ -1,10 +1,9 @@
-package com.example.recyclerview;
+package com.example.recyclerview.CustomAdapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.recyclerview.DTO.DataShopDTO;
+import com.example.recyclerview.OrderFood;
+import com.example.recyclerview.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
-    ArrayList<DataShop> dataShops;
+    ArrayList<DataShopDTO> dataShops;
     Context context;
 
-    public ShopAdapter(ArrayList<DataShop> dataShops, Context context) {
+    public ShopAdapter(ArrayList<DataShopDTO> dataShops, Context context) {
         this.dataShops = dataShops;
         this.context = context;
     }
@@ -29,7 +31,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
     @Override
     public ViewHoler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = layoutInflater.inflate(R.layout.item_restaurant,viewGroup,false);
+        View itemView = layoutInflater.inflate(R.layout.item_row,viewGroup,false);
         return new ViewHoler(itemView);
     }
 
@@ -43,7 +45,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
                 .error(R.mipmap.ic_launcher)
                 .resize(90,90)
                 .into(viewHoler.imgRestaurant);
-
     }
 
     @Override
@@ -61,6 +62,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
         ImageView imgRestaurant;
         TextView txtAdress;
 
+
         public ViewHoler(@NonNull final View itemView) {
             super(itemView);
             txtName = (TextView)itemView.findViewById(R.id.txtName);
@@ -70,16 +72,19 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RemoveItem(getAdapterPosition());
+
                     Toast.makeText(itemView.getContext(), "Remove"+ txtName.getText(), Toast.LENGTH_SHORT).show();
                     TransferDataToOderFood(getAdapterPosition());
                 }
+
             });
         }
     }
-
     public void TransferDataToOderFood(int adapterPosition) {
-        Intent intent = new Intent(context,OrderFood.class);
+        Intent intent = new Intent(context, OrderFood.class);
         intent.putExtra("id",dataShops.get(adapterPosition).getId());
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }

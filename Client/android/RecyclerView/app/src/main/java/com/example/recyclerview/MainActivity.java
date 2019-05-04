@@ -1,172 +1,117 @@
 package com.example.recyclerview;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import com.example.recyclerview.Fragment.HistoryPageFragment;
+import com.example.recyclerview.Fragment.HomePageFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<DataShop> arrayListRestaurants = new ArrayList<>();
+    private DrawerLayout mdrawerLayout;
+
+//    HomePageFragment homePageFragment;
+//    FragmentTransaction fragmentTransaction;
+//    HistoryPageFragment historyPageFragment;
+//    FragmentManager fragmentManager;
+    private enum NavigationFragment{
+        Home,
+        History
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mdrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        GetResturantData("a");
-        // Instantiate the RequestQueue.
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//        String url ="https://api.androidhive.info/json/menu.json";
-//
-//// Request a string response from the provided URL.
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // Display the first 500 characters of the response string.
-//                        Log.d("ketqua",response);
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d("log","bbbbbbb");
-//            }
-//        });
-//
-//// Add the request to the RequestQueue.
-//        queue.add(stringRequest);
-
-    }
-    public  void initView(){
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.RView_RestaurantNearYou);
-        recyclerView.setHasFixedSize(true);
-        //GridLayoutManager layoutManager = new GridLayoutManager(this, StaggeredGridLayoutManager.VERTICAL);
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-       // DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
-       // recyclerView.addItemDecoration(dividerItemDecoration);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.custom_divider);
-        dividerItemDecoration.setDrawable(drawable);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-        //arrayList.add (new DataShop(R.drawable.aaaa,"dien thoai"));
-
-        //GetResturantData("a");
-        Log.d("aaaaaaaaaaaaaaaaaaa", String.valueOf(arrayListRestaurants.size()));
-        ShopAdapter shopAdapter = new ShopAdapter(arrayListRestaurants,getApplicationContext());
-        recyclerView.setAdapter(shopAdapter);
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-    public  void initView1(){
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.RView_Discover);
-        recyclerView.setHasFixedSize(true);
-        //GridLayoutManager layoutManager = new GridLayoutManager(this, StaggeredGridLayoutManager.VERTICAL);
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        // DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
-        // recyclerView.addItemDecoration(dividerItemDecoration);
-        ArrayList<DataShop> arrayList = new ArrayList<>();
-       // arrayList.add (new DataShop(R.drawable.aaaa,"dien thoai"));
-
-        ShopAdapter shopAdapter = new ShopAdapter(arrayList,getApplicationContext());
-        recyclerView.setAdapter(shopAdapter);
-
-    }
-    public void GetResturantData(String data)
-    {
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        String url = "https://api.androidhive.info/json/menu.json";
-        StringRequest StringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        mdrawerLayout = findViewById(R.id.drawer_layout);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlue));
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.menu);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onResponse(String response) {
-                Log.d("ketqua",response);
-                try {
-                    Log.d("ket___qua",response);
-                    //JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArrayData = new JSONArray(response);
-                   // int total = Integer.parseInt(jsonObject.getString("total"));
-                   // JSONArray jsonArrayData = jsonObject.getJSONArray("data");
-//                    for (int i = 0 ; i< total ; i++)
-//                    {
-//                        JSONObject jsonObjectData = jsonArrayData.getJSONObject(i);
-//                        String NameRestaurant = jsonObjectData.getString("name");
-//                        String AddressRestaurant = jsonObjectData.getString("address");
-//                        String ImgRestaurant = "https://api.androidhive.info/images/food/1.jpg";
-//                          String Id= jsonObjectData.getString("_id");
-//                        arrayListRestaurants.add(new DataShop(ImgRestaurant,NameRestaurant,AddressRestaurant));
-//
-//
-//                    }
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
+                int id = menuItem.getItemId();
+                switch(id)
+                {
+                    case R.id.nav_item_mainview:
+                        Toast.makeText(MainActivity.this, "Main View",Toast.LENGTH_SHORT).show();
+                        ChangeFragment(NavigationFragment.Home);
+//                        fragmentManager = getSupportFragmentManager();
+//                        homePageFragment = new HomePageFragment();
+//                        fragmentTransaction = fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.content_frame,homePageFragment);
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
 
-
-                    for (int i = 0 ; i< 8 ; i++)
-                    {
-                        JSONObject jsonObjectData = jsonArrayData.getJSONObject(i);
-                        String NameRestaurant = jsonObjectData.getString("name");
-                        Log.d("NameRestaurant",NameRestaurant);
-                        String AddressRestaurant = jsonObjectData.getString("description");
-                        String ImgRestaurant = jsonObjectData.getString("thumbnail");
-                        arrayListRestaurants.add(new DataShop(ImgRestaurant,NameRestaurant,AddressRestaurant,"a"));
-
-                    }
-                    initView();
-                    Log.d("Test_array", String.valueOf(arrayListRestaurants.size()));
-
-                } catch (JSONException e) {
-                    Log.d("loi_ne","bbbbbbbbbbbbbbbbbbbbb");
-                    e.printStackTrace();
+                        break;
+                    case R.id.nav_item_history:
+                        Toast.makeText(MainActivity.this, "History",Toast.LENGTH_SHORT).show();
+                        ChangeFragment(NavigationFragment.History);
+//                        historyPageFragment = new HistoryPageFragment();
+//                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                        fragmentTransaction.replace(R.id.content_frame,historyPageFragment);
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
+                        break;
+                    default:
+                        return true;
                 }
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("loi_ne","ccccccccccccccccccccccccccc");
 
+                // set item as selected to persist highlight
+                menuItem.setChecked(true);
+                // close drawer when item is tapped
+                mdrawerLayout.closeDrawers();
+
+                // Add code here to update the UI based on the item selected
+                // For example, swap UI fragments here
+
+                return true;
             }
         });
-        Log.d("loi_ne","ddddddddddddd");
-        requestQueue.add(StringRequest);
-
-        Log.d("loi_ne","eeeeeeeeeeeeeee");
     }
+
+    private void ChangeFragment(NavigationFragment value){
+        Fragment fragment = null;
+        switch (value) {
+            case Home:    fragment = new HomePageFragment();
+            break;
+            case History: fragment = new HistoryPageFragment();
+            break;
+        }
+        if(fragment!=null)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+
+    }
+
 }

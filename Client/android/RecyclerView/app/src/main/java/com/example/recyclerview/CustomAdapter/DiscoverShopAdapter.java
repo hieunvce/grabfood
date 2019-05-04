@@ -1,9 +1,8 @@
-package com.example.recyclerview;
+package com.example.recyclerview.CustomAdapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.recyclerview.DTO.DataDiscoverShopDTO;
+import com.example.recyclerview.R;
+
 import java.util.ArrayList;
 
 public class DiscoverShopAdapter extends RecyclerView.Adapter<DiscoverShopAdapter.ViewHoler> {
-    ArrayList<DataDiscoverShop> dataDiscoverShops;
+    ArrayList<DataDiscoverShopDTO> dataDiscoverShops;
     Context context;
 
-    public DiscoverShopAdapter(ArrayList<DataDiscoverShop> dataDiscoverShops, Context context) {
+    public DiscoverShopAdapter(ArrayList<DataDiscoverShopDTO> dataDiscoverShops, Context context) {
         this.dataDiscoverShops = dataDiscoverShops;
         this.context = context;
     }
@@ -61,6 +63,7 @@ public class DiscoverShopAdapter extends RecyclerView.Adapter<DiscoverShopAdapte
                     RemoveItem(getAdapterPosition());
                     Toast.makeText(itemView.getContext(), "Remove"+ txtName.getText(), Toast.LENGTH_SHORT).show();
                 }
+
             });
         }
     }
