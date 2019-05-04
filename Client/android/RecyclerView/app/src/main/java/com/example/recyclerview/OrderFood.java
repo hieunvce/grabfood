@@ -86,9 +86,9 @@ public class OrderFood extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            intent=getIntent();
+            //intent=getIntent();
 
-            dataDishesTransferToCart = (ArrayList<DataDishDTO>)intent.get("quantity");
+            //dataDishesTransferToCart = (ArrayList<DataDishDTO>)intent.get("quantity");
 
 
         }
