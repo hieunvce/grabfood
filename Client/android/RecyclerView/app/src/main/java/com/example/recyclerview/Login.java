@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.recyclerview.Server.UserNetworkProvider;
 
 
 public class Login extends AppCompatActivity {
@@ -18,8 +20,9 @@ public class Login extends AppCompatActivity {
     CheckBox cb_rememberme;
     TextView tv_forget_pass;
     Button   btn_login, btn_signup;
-    String username,password;
-
+    String   username,password;
+    Boolean  login_fail = false;
+    public static boolean login_status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +43,22 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GetUserInfo();
-                userNetworkProvider.start(username,password);
-                Intent intent = new Intent(Login.this, MainActivity.class);
-                startActivity(intent);
+//                username = username + "";
+//                password = password + "";
+//                if((username == "")){
+//                    Toast.makeText(Login.this,"Invalid User Name or Password!",Toast.LENGTH_SHORT).show();
+//                    login_fail = true;
+//                }
+                if(login_fail == false) {
+                    userNetworkProvider.startcheckLogin(username, password);
+                    if (login_status == false) {
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Login.this, "Login Fail. Try again!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                login_fail = false;
             }
         });
     }

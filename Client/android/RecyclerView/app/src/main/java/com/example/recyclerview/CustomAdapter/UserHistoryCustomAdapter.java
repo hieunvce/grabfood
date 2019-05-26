@@ -1,25 +1,21 @@
 package com.example.recyclerview.CustomAdapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.recyclerview.Fragment.HistoryPageFragment;
 import com.example.recyclerview.R;
-import com.example.recyclerview.UserHistory;
+import com.example.recyclerview.DTO.UserHistory;
+import com.example.recyclerview.Server.UserNetworkProvider;
 
 import java.util.List;
 
 public class UserHistoryCustomAdapter extends ArrayAdapter<UserHistory> {
     private Context context;
-
     public UserHistoryCustomAdapter(Context context, int layoutID, List<UserHistory> objects) {
         super(context, layoutID, objects);
         this.context = context;

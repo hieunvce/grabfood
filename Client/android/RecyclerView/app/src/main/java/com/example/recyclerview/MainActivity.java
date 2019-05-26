@@ -16,11 +16,12 @@ import android.widget.Toast;
 
 import com.example.recyclerview.Fragment.HistoryPageFragment;
 import com.example.recyclerview.Fragment.HomePageFragment;
+import com.example.recyclerview.Server.UserNetworkProvider;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mdrawerLayout;
-
+    Fragment fragment = null;
 //    HomePageFragment homePageFragment;
 //    FragmentTransaction fragmentTransaction;
 //    HistoryPageFragment historyPageFragment;
@@ -44,7 +45,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        fragment = new HomePageFragment();
+        if(fragment!=null)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
         mdrawerLayout = findViewById(R.id.drawer_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -99,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ChangeFragment(NavigationFragment value){
-        Fragment fragment = null;
         switch (value) {
             case Home:    fragment = new HomePageFragment();
             break;
@@ -107,11 +112,10 @@ public class MainActivity extends AppCompatActivity {
             break;
         }
         if(fragment!=null)
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
     }
 
 }

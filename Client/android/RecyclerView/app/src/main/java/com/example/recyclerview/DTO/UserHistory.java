@@ -1,4 +1,4 @@
-package com.example.recyclerview;
+package com.example.recyclerview.DTO;
 
 public class UserHistory {
     private String id;

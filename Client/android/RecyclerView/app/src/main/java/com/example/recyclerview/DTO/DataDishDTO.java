@@ -20,7 +20,7 @@ public class DataDishDTO implements Serializable {
         HinhAnh = hinhAnh;
         Ten = ten;
         Gia = gia;
-        SoLuong = soLuong;
+        SoLuong = "1";
     }
 
     public String getHinhAnh() {

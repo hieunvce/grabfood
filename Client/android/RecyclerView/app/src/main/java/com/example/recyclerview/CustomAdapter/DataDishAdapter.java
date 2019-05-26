@@ -120,14 +120,22 @@ public class DataDishAdapter extends RecyclerView.Adapter<DataDishAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     int number=Integer.parseInt(txtNumberDialog.getText().toString()) + 1;
+                    int root_price = Integer.parseInt(dataDishes.get(adapterPosition).getGia());
+                    int last_price = number*root_price;
                     txtNumberDialog.setText(String.valueOf(number));
+                    txtPriceDiaglog.setText(Integer.toString(last_price));
                     dataDishes.get(adapterPosition).setSoLuong(String.valueOf(number));
                 }
             });
             btnMinusDialog.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int number=Integer.parseInt(txtNumberDialog.getText().toString()) + 1;
+                    int number=Integer.parseInt(txtNumberDialog.getText().toString()) - 1;
+                    if(number <=0)
+                        number = 0;
+                    int root_price = Integer.parseInt(dataDishes.get(adapterPosition).getGia());
+                    int last_price = number*root_price;
+                    txtPriceDiaglog.setText(Integer.toString(last_price));
                     txtNumberDialog.setText(String.valueOf(number));
                     dataDishes.get(adapterPosition).setSoLuong(String.valueOf(number));
                 }
