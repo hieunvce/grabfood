@@ -1,56 +1,46 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { RestaurantModule } from "./restaurant/restaurant.module";
+import { AccordionModule } from "primeng/accordion";
+import { MenuItem } from "primeng/api";  
 
-import {
-  MatInputModule, MatButtonModule, MatSelectModule,
-  MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatRadioModule, MatCardModule
-} from '@angular/material';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MaterialModule} from './material-module';
-import { NavbarComponent } from './navbar/navbar.component';
-import { HomeComponent } from './home/home.component';
-import { RestaurantComponent } from './restaurant/restaurant.component';
-import { UserComponent } from './user/user.component';
-import { HelpComponent } from './help/help.component';
-import { AboutComponent } from './about/about.component';
-import { RestaurantFormComponent } from './restaurant/restaurant-form/restaurant-form.component';
-import { NavComponent } from './nav/nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { LoginComponent } from "./login/login.component";
+import { ProductComponent } from "./product/product.component";
+import { FooterComponent } from "./shared/footer/footer.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AngularMaterialModule } from "./shared/material.modules";
+import { AboutComponent } from "./about/about.component";
+import { ContactComponent } from "./contact/contact.component";
+import { HomepageComponent } from "./homepage/homepage.component";
+import { NavbarComponent } from "./shared/navbar/navbar.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    HomeComponent,
-    RestaurantComponent,
-    UserComponent,
-    HelpComponent,
+    LoginComponent,
+    ProductComponent,
+    FooterComponent,
     AboutComponent,
-    RestaurantFormComponent,
-    NavComponent
+    ContactComponent,
+    HomepageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    AngularMaterialModule,
     FormsModule,
-    MaterialModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatIconModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatRadioModule,
-    MatCardModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    RestaurantModule,
+    AccordionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
