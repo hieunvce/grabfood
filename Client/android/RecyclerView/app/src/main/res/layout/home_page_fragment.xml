@@ -24,13 +24,14 @@
                 android:layout_marginTop="20dp"
                 >
 
-                <EditText
+                <TextView
                     android:id="@+id/txtAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:inputType="textPersonName"
+                    android:layout_marginTop="14dp"
                     android:text="@string/str_address"
                     />
 
@@ -45,7 +46,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_user_history"
+                    android:id="@+id/tv_user_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -72,7 +73,7 @@
 
                     android:gravity="center"
                     android:inputType="textPersonName"
-                    android:text="@string/str_findFood"
+                    android:hint="@string/str_findFood"
                     android:textSize="20sp" />
 
                 <ImageView

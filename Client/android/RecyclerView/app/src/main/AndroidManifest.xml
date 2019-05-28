@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.recyclerview">
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -14,20 +15,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".AddressesByNameIntentService"
+            android:enabled="true"
+            android:exported="true"></service>
 
-        <activity android:name=".MainActivity">
-        </activity>
-
+        <activity android:name=".location" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Cart"></activity>
-        <activity android:name=".OrderFood"></activity>
+        <activity android:name=".Cart" />
+        <activity android:name=".OrderFood" />
 
         <uses-library
             android:name="org.apache.http.legacy"

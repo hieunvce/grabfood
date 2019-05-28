@@ -29,4 +29,5 @@
     <string name="paycheck">Thanh Toán</string>
     <string name="gotocart">Giỏ hàng</string>
     <string name="additemtocart">Thêm món</string>
+    <string name="findAddress">Nhập địa chỉ của bạn</string>
 </resources>
