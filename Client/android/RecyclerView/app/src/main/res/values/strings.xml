@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">App Order Food</string>
+    <string name="sign_up_header">Sign Up</string>
     <string name="str_findFood">Nhập món ăn bạn muốn tìm </string>
     <string name="str_address">Giao tới </string>
     <string name="str_discover_store">Khám phá danh mục </string>

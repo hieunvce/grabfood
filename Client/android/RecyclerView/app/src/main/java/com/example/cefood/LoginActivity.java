@@ -59,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btn_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void getUserInput() {
@@ -99,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserAPIInterface apiService = retrofit.create(UserAPIInterface.class);
         LoginForm loginForm = new LoginForm("local", this.username, this.password);
-        Log.d("Login", "Login Form: " + loginForm.getStrategy() + loginForm.getEmail()+loginForm.getPassword());
+        Log.d("Login", "Login Form: " + loginForm.getStrategy() + loginForm.getEmail() + loginForm.getPassword());
         Call<AccessToken> call = apiService.logIn(loginForm);
         call.enqueue(new Callback<AccessToken>() {
 
