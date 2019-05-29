@@ -1,8 +1,10 @@
 package com.example.cefood;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +40,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+        String accessToken = sharedPreferences.getString("accessToken", null);
+        if (!TextUtils.isEmpty(accessToken)) {
+            Log.d("Login", "Login Success. Access Token: " + accessToken);
+            if (!accessToken.isEmpty() && accessToken.length() > 0) {
+                // Go to MainActivity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        }
         setContentView(R.layout.activity_login);
         BindIdFromLayout();
     }
@@ -118,6 +131,14 @@ public class LoginActivity extends AppCompatActivity {
                     AccessToken accessToken = response.body();
                     String jwtToken = accessToken.getAccessToken();
                     Log.d("Login", "Login Success. Access Token: " + jwtToken);
+
+                    // Save JWT to SharedPreferences
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    editor.putString("accessToken", jwtToken);
+                    editor.commit();
+                    // Go to MainActivity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
