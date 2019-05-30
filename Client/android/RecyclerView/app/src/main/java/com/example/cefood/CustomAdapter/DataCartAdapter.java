@@ -12,100 +12,106 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.cefood.DTO.Product;
+import com.example.cefood.Model.OrderDetail;
+import com.example.cefood.Model.Product;
 import com.squareup.picasso.Picasso;
 import com.example.cefood.R;
 
 import java.util.ArrayList;
 
-public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHoler> {
-    ArrayList<Product> dataDishes;
+public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHolder> {
+    ArrayList<OrderDetail> productsInCart;
     Context context;
 
-    public DataCartAdapter(ArrayList<Product> dataDishs, Context context) {
-        this.dataDishes = dataDishs;
+    public DataCartAdapter(ArrayList<OrderDetail> productsInCart, Context context) {
+        this.productsInCart = productsInCart;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public ViewHoler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = layoutInflater.inflate(R.layout.item_cart, viewGroup, false);
-        return new ViewHoler(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHoler viewHoler, int i) {
-        viewHoler.txtName.setText(dataDishes.get(i).getTen());
-        viewHoler.txtGia.setText(dataDishes.get(i).getGia());
-        Picasso.get()
-                .load(dataDishes.get(i).getHinhAnh())
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .resize(90, 90)
-                .into(viewHoler.imgCart);
-        viewHoler.txtNumber.setText(dataDishes.get(i).getSoLuong());
+        return new ViewHolder(itemView);
     }
 
     @Override
     public int getItemCount() {
-        return dataDishes.size();
+        return productsInCart.size();
     }
 
     public void RemoveItem(int position) {
-        dataDishes.remove(position);
+        productsInCart.remove(position);
         notifyItemRemoved(position);
     }
 
-    public class ViewHoler extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName;
-        ImageView imgCart;
+        ImageView imgProductInCartImg;
+        TextView txtInCartProductName;
+        TextView txtInCartProductPrice;
         ImageView imgPlus;
         ImageView imgMinus;
-        TextView txtGia;
-        TextView txtNumber;
+        TextView txtInCartProductTotal;
+        TextView txtInCartQuantity;
 
 
-        public ViewHoler(@NonNull final View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
+
             super(itemView);
 
-            txtName = (TextView) itemView.findViewById(R.id.txtNameCart);
-            txtGia = (TextView) itemView.findViewById(R.id.txtPriceCart);
-            txtNumber = (TextView) itemView.findViewById(R.id.txtNumberCart);
+            imgProductInCartImg = (ImageView) itemView.findViewById(R.id.imgInCartProductImg);
+            txtInCartProductName = (TextView) itemView.findViewById(R.id.txtInCartProductName);
+            txtInCartProductPrice = (TextView) itemView.findViewById(R.id.txtInCartProductPrice);
+            txtInCartProductTotal = (TextView) itemView.findViewById(R.id.txtInCartProductTotal);
 
-            imgCart = (ImageView) itemView.findViewById(R.id.imgCart);
             imgPlus = (ImageView) itemView.findViewById(R.id.imgPlusCart);
             imgMinus = (ImageView) itemView.findViewById(R.id.imgMinusCart);
-
-
-            //
+            txtInCartQuantity = (TextView) itemView.findViewById(R.id.txtInCartQuantity);
 
             imgPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int number = Integer.parseInt(txtNumber.getText().toString()) + 1;
-                    txtNumber.setText(String.valueOf(number));
+                    int number = Integer.parseInt(txtInCartQuantity.getText().toString()) + 1;
+                    txtInCartQuantity.setText(String.valueOf(number));
                 }
             });
             imgMinus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int number = Integer.parseInt(txtNumber.getText().toString()) - 1;
-                    txtNumber.setText(String.valueOf(number));
+                    int number = Integer.parseInt(txtInCartQuantity.getText().toString()) - 1;
+                    txtInCartQuantity.setText(String.valueOf(number));
                 }
             });
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Toast.makeText(itemView.getContext(), "select" + txtName.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "select" + txtInCartProductName.getText(), Toast.LENGTH_SHORT).show();
                     context = itemView.getContext();
                 }
             });
         }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        Product orderedProduct = productsInCart.get(i).getProduct();
+        int orderedProductQuantity = productsInCart.get(i).getQuantity();
+
+        viewHolder.txtInCartProductName.setText(orderedProduct.getName());
+        viewHolder.txtInCartProductPrice.setText(orderedProduct.getPrice().toString());
+        int inCartProductTotal = orderedProduct.getPrice()*Integer.parseInt(viewHolder.txtInCartQuantity.getText().toString());
+        viewHolder.txtInCartProductTotal.setText(Integer.toString(inCartProductTotal));
+
+        Picasso.get()
+                .load(orderedProduct.getImg())
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .resize(90, 90)
+                .into(viewHolder.imgProductInCartImg);
+
+        viewHolder.txtInCartQuantity.setText(String.valueOf(orderedProductQuantity));
     }
 }

@@ -6,33 +6,61 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".OrderFood">
+
     <com.amar.library.ui.StickyScrollView
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        app:stickyHeader="@+id/btnCart"
-        >
+        app:stickyHeader="@+id/btnCheckout"
+        android:background="#d3d3d3">
+
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/RView_Cart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/RView_Cart"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
-                >
+                android:layout_marginTop="5dp">
 
             </android.support.v7.widget.RecyclerView>
-            <Button
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/paycheck"
+                android:layout_above="@+id/btnCheckout"
+                android:layout_margin="@dimen/margin_basex2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Total:"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtTotalInCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="$$$$$$$$"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnCheckout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:id="@+id/btnCart"
-                />
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:text="@string/paycheck" />
         </RelativeLayout>
 
 

@@ -19,8 +19,10 @@ import android.widget.Button;
 import com.example.cefood.API.ProductAPI.GetProductsByRestaurantIdInterface;
 import com.example.cefood.API.ProductAPI.ProductsResponseFromAPI;
 import com.example.cefood.CustomAdapter.ProductAdapter;
+import com.example.cefood.Model.OrderDetail;
 import com.example.cefood.Model.Product;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderFood extends AppCompatActivity {
     ArrayList<Product> productsArray = new ArrayList<Product>();
-    ArrayList<Product> productsInCart = new ArrayList<Product>();
+    ArrayList<OrderDetail> orderedProducts = new ArrayList<OrderDetail>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class OrderFood extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrderFood.this, Cart.class);
-                intent.putExtra("productsInCart", productsInCart);
+                intent.putExtra("productsInCart", (Serializable) orderedProducts);
                 startActivity(intent);
             }
         });
@@ -64,8 +66,19 @@ public class OrderFood extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            productsInCart.add((Product) intent.getSerializableExtra("addToCart"));
-            Log.d("OrderFood", "Size = " + productsInCart.size());
+            OrderDetail receivedOrderDetail =(OrderDetail) intent.getSerializableExtra("addToCart");
+            boolean existedInCart = false;
+            for (OrderDetail orderDetail:orderedProducts) {
+                if (orderDetail.getProduct().getId().equals(receivedOrderDetail.getProduct().getId())){
+                    orderDetail.setQuantity(orderDetail.getQuantity()+receivedOrderDetail.getQuantity());
+                    existedInCart = true;
+                }
+            }
+            if (existedInCart == false){
+                orderedProducts.add(receivedOrderDetail);
+            }
+
+            Log.d("OrderFood", "Size = " + orderedProducts.size());
 
         }
     };

@@ -16,10 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cefood.Model.OrderDetail;
 import com.example.cefood.Model.Product;
 import com.squareup.picasso.Picasso;
 import com.example.cefood.R;
 
+import java.io.Externalizable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -131,9 +133,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     int last_price = number * root_price;
                     txtQuantity.setText(String.valueOf(number));
                     txtProductPriceDialog.setText(Integer.toString(last_price));
-
-                    // TODO: Add quantity to somewhere to save
-                    // Here
                 }
             });
             btnMinusDialog.setOnClickListener(new View.OnClickListener() {
@@ -146,20 +145,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     int last_price = number * root_price;
                     txtProductPriceDialog.setText(Integer.toString(last_price));
                     txtQuantity.setText(String.valueOf(number));
-
-                    // TODO: Add quantity to somewhere to save
-                    // Here
                 }
             });
 
             btnAddToCartDialog.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    OrderDetail orderedProduct = new OrderDetail();
+                    orderedProduct.setProduct(products.get(adapterPosition));
+                    orderedProduct.setQuantity(Integer.parseInt(txtQuantity.getText().toString()));
                     Intent intent = new Intent("custom-message");
-                    intent.putExtra("addToCart", (Serializable) products.get(adapterPosition));
+                    intent.putExtra("addToCart", (Serializable) orderedProduct);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                    Log.d("message", ""+products.size());
+                    Log.d("addToCart", ""+orderedProduct.getProduct().getName() + " "+orderedProduct.getQuantity());
                     userSelectProductDialog.dismiss();
                 }
             });
