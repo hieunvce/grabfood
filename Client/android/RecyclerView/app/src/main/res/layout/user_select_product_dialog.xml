@@ -3,42 +3,40 @@
     android:layout_width="300dp"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="15dp"
-    >
+    android:padding="15dp">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/layout"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/txtProductNameDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aaa"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:id="@+id/txtNameDialog"
-
-            />
+            android:text="Name"
+            android:textColor="@color/colorBlack"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/txtProductPriceDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="aaa"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:id="@+id/txtPriceDialog"
+            android:text="Price"
             android:textColor="@color/colorAccent"
-            />
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
     </RelativeLayout>
+
     <TextView
+        android:id="@+id/txtProductCategoryDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="aaa"
-        android:id="@+id/txtDiscriptionDialog"
-        />
+        android:text="Category" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,47 +46,46 @@
 
 
         <TextView
+            android:id="@+id/txtQuantityDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtNumberDialog"
-            android:text="aaa"
-            android:textSize="20dp"
-            android:textStyle="bold"
             android:layout_centerHorizontal="true"
+            android:text="Number"
             android:textColor="@color/colorAccent"
-            />
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="42dp"
-            android:maxHeight="42dp"
-            android:src="@drawable/icon_plus"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:layout_marginLeft="50dp"
-            android:layout_toRightOf="@id/txtNumberDialog"
             android:id="@+id/btnPlusDialog"
-            />
-        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@id/txtQuantityDialog"
+            android:adjustViewBounds="true"
             android:maxWidth="42dp"
             android:maxHeight="42dp"
-            android:src="@drawable/icon_minus"
             android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:layout_marginRight="50dp"
-            android:layout_toLeftOf="@id/txtNumberDialog"
+            android:src="@drawable/icon_plus" />
+
+        <ImageButton
             android:id="@+id/btnMinusDialog"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:layout_toLeftOf="@id/txtQuantityDialog"
+            android:adjustViewBounds="true"
+            android:maxWidth="42dp"
+            android:maxHeight="42dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_minus" />
 
 
     </RelativeLayout>
+
     <Button
+        android:id="@+id/btnAddToCartDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/additemtocart"
-        android:id="@+id/btnAddToCartDialog"
-        />
+        android:text="@string/additemtocart" />
 
 </LinearLayout>

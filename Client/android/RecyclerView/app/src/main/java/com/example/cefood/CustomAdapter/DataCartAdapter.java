@@ -12,17 +12,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.cefood.DTO.DataDishDTO;
+import com.example.cefood.DTO.Product;
 import com.squareup.picasso.Picasso;
 import com.example.cefood.R;
 
 import java.util.ArrayList;
 
 public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHoler> {
-    ArrayList<DataDishDTO> dataDishes;
+    ArrayList<Product> dataDishes;
     Context context;
 
-    public DataCartAdapter(ArrayList<DataDishDTO> dataDishs, Context context) {
+    public DataCartAdapter(ArrayList<Product> dataDishs, Context context) {
         this.dataDishes = dataDishs;
         this.context = context;
     }
@@ -31,7 +31,7 @@ public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHo
     @Override
     public ViewHoler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = layoutInflater.inflate(R.layout.item_cart,viewGroup,false);
+        View itemView = layoutInflater.inflate(R.layout.item_cart, viewGroup, false);
         return new ViewHoler(itemView);
     }
 
@@ -43,7 +43,7 @@ public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHo
                 .load(dataDishes.get(i).getHinhAnh())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
-                .resize(90,90)
+                .resize(90, 90)
                 .into(viewHoler.imgCart);
         viewHoler.txtNumber.setText(dataDishes.get(i).getSoLuong());
     }
@@ -52,12 +52,13 @@ public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHo
     public int getItemCount() {
         return dataDishes.size();
     }
-    public void RemoveItem(int position)
-    {
+
+    public void RemoveItem(int position) {
         dataDishes.remove(position);
         notifyItemRemoved(position);
     }
-    public class  ViewHoler extends RecyclerView.ViewHolder{
+
+    public class ViewHoler extends RecyclerView.ViewHolder {
 
         TextView txtName;
         ImageView imgCart;
@@ -70,13 +71,13 @@ public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHo
         public ViewHoler(@NonNull final View itemView) {
             super(itemView);
 
-            txtName = (TextView)itemView.findViewById(R.id.txtNameCart);
-            txtGia = (TextView)itemView.findViewById(R.id.txtPriceCart);
-            txtNumber = (TextView)itemView.findViewById(R.id.txtNumberCart);
+            txtName = (TextView) itemView.findViewById(R.id.txtNameCart);
+            txtGia = (TextView) itemView.findViewById(R.id.txtPriceCart);
+            txtNumber = (TextView) itemView.findViewById(R.id.txtNumberCart);
 
-            imgCart = (ImageView)itemView.findViewById(R.id.imgCart);
-            imgPlus = (ImageView)itemView.findViewById(R.id.imgPlusCart);
-            imgMinus = (ImageView)itemView.findViewById(R.id.imgMinusCart);
+            imgCart = (ImageView) itemView.findViewById(R.id.imgCart);
+            imgPlus = (ImageView) itemView.findViewById(R.id.imgPlusCart);
+            imgMinus = (ImageView) itemView.findViewById(R.id.imgMinusCart);
 
 
             //
@@ -84,41 +85,27 @@ public class DataCartAdapter extends RecyclerView.Adapter<DataCartAdapter.ViewHo
             imgPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int number=Integer.parseInt(txtNumber.getText().toString()) + 1;
+                    int number = Integer.parseInt(txtNumber.getText().toString()) + 1;
                     txtNumber.setText(String.valueOf(number));
                 }
             });
             imgMinus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int number=Integer.parseInt(txtNumber.getText().toString()) - 1;
+                    int number = Integer.parseInt(txtNumber.getText().toString()) - 1;
                     txtNumber.setText(String.valueOf(number));
                 }
             });
-
-
-
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(itemView.getContext(), "select"+ txtName.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "select" + txtName.getText(), Toast.LENGTH_SHORT).show();
                     context = itemView.getContext();
-
-
-
-
-
                 }
             });
-
         }
-
-
-
-
-
     }
 }

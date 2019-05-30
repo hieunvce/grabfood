@@ -83,8 +83,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void getUserInput() {
-        this.username = ed_user_name.getText().toString();
-        this.password = ed_password.getText().toString();
+        this.username = ed_user_name.getText().toString().trim();
+        this.password = ed_password.getText().toString().trim();
     }
 
     boolean checkUserInput() {

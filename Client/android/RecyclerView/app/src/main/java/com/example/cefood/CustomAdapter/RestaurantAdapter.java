@@ -10,60 +10,60 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.cefood.DTO.DataShopDTO;
+import com.example.cefood.Model.Restaurant;
 import com.example.cefood.OrderFood;
 import com.example.cefood.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
-    ArrayList<DataShopDTO> dataShops;
+public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
+    ArrayList<Restaurant> restaurants;
     Context context;
 
-    public ShopAdapter(ArrayList<DataShopDTO> dataShops, Context context) {
-        this.dataShops = dataShops;
+    public RestaurantAdapter(ArrayList<Restaurant> restaurants, Context context) {
+        this.restaurants = restaurants;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public ViewHoler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = layoutInflater.inflate(R.layout.item_row,viewGroup,false);
-        return new ViewHoler(itemView);
+        View itemView = layoutInflater.inflate(R.layout.item_restaurant,viewGroup,false);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHoler viewHoler, int i) {
-        viewHoler.txtName.setText(dataShops.get(i).getTen());
-        viewHoler.txtAdress.setText(dataShops.get(i).getTen());
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        viewHolder.txtName.setText(restaurants.get(i).getName());
+        viewHolder.txtAdress.setText(restaurants.get(i).getAddress());
         Picasso.get()
-                .load(dataShops.get(i).getHinhAnh())
+                .load(restaurants.get(i).getImg())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .resize(90,90)
-                .into(viewHoler.imgRestaurant);
+                .into(viewHolder.imgRestaurant);
     }
 
     @Override
     public int getItemCount() {
-        return dataShops.size();
+        return restaurants.size();
     }
     public void RemoveItem(int position)
     {
-        dataShops.remove(position);
+        restaurants.remove(position);
         notifyItemRemoved(position);
     }
-    public class  ViewHoler extends RecyclerView.ViewHolder{
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView txtName;
         ImageView imgRestaurant;
         TextView txtAdress;
 
 
-        public ViewHoler(@NonNull final View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             txtName = (TextView)itemView.findViewById(R.id.txtName);
             txtAdress = (TextView)itemView.findViewById(R.id.txtAddress);
@@ -73,8 +73,9 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(itemView.getContext(), "Remove"+ txtName.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "Selected "+ txtName.getText(), Toast.LENGTH_SHORT).show();
                     TransferDataToOderFood(getAdapterPosition());
+
                 }
 
             });
@@ -82,8 +83,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHoler> {
     }
     public void TransferDataToOderFood(int adapterPosition) {
         Intent intent = new Intent(context, OrderFood.class);
-        intent.putExtra("id",dataShops.get(adapterPosition).getId());
-
+        intent.putExtra("restaurantId", restaurants.get(adapterPosition).getId());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

@@ -19,11 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mdrawerLayout;
     Fragment fragment = null;
-//    HomePageFragment homePageFragment;
-//    FragmentTransaction fragmentTransaction;
-//    HistoryPageFragment historyPageFragment;
-//    FragmentManager fragmentManager;
-    private enum NavigationFragment{
+
+    private enum NavigationFragment {
         Home,
         History
     }
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragment = new HomePageFragment();
-        if(fragment!=null)
+        if (fragment != null)
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_frame, fragment)
@@ -61,58 +58,37 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 int id = menuItem.getItemId();
-                switch(id)
-                {
+                switch (id) {
                     case R.id.nav_item_mainview:
-                        Toast.makeText(MainActivity.this, "Main View",Toast.LENGTH_SHORT).show();
                         ChangeFragment(NavigationFragment.Home);
-//                        fragmentManager = getSupportFragmentManager();
-//                        homePageFragment = new HomePageFragment();
-//                        fragmentTransaction = fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.content_frame,homePageFragment);
-//                        fragmentTransaction.addToBackStack(null);
-//                        fragmentTransaction.commit();
-
                         break;
                     case R.id.nav_item_history:
-                        Toast.makeText(MainActivity.this, "History",Toast.LENGTH_SHORT).show();
                         ChangeFragment(NavigationFragment.History);
-//                        historyPageFragment = new HistoryPageFragment();
-//                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                        fragmentTransaction.replace(R.id.content_frame,historyPageFragment);
-//                        fragmentTransaction.addToBackStack(null);
-//                        fragmentTransaction.commit();
                         break;
                     default:
                         return true;
                 }
 
-
-                // set item as selected to persist highlight
                 menuItem.setChecked(true);
-                // close drawer when item is tapped
                 mdrawerLayout.closeDrawers();
-
-                // Add code here to update the UI based on the item selected
-                // For example, swap UI fragments here
-
                 return true;
             }
         });
     }
 
-    private void ChangeFragment(NavigationFragment value){
+    private void ChangeFragment(NavigationFragment value) {
         switch (value) {
-            case Home:    fragment = new HomePageFragment();
-            break;
-            case History: fragment = new HistoryPageFragment();
-            break;
+            case Home:
+                fragment = new HomePageFragment();
+                break;
+            case History:
+                fragment = new HistoryPageFragment();
+                break;
         }
-        if(fragment!=null)
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+        if (fragment != null)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
     }
-
 }

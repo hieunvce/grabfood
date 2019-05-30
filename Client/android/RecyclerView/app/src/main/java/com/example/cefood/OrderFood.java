@@ -16,150 +16,119 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.cefood.CustomAdapter.DataDishAdapter;
-import com.example.cefood.DTO.DataDishDTO;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.cefood.API.ProductAPI.GetProductsByRestaurantIdInterface;
+import com.example.cefood.API.ProductAPI.ProductsResponseFromAPI;
+import com.example.cefood.CustomAdapter.ProductAdapter;
+import com.example.cefood.Model.Product;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderFood extends AppCompatActivity {
-    ArrayList<DataDishDTO> arrayListDish = new ArrayList<>();
-    ArrayList<DataDishDTO> dataDishesTransferToCart = new ArrayList<>();
-    String qty;
+    ArrayList<Product> productsArray = new ArrayList<Product>();
+    ArrayList<Product> productsInCart = new ArrayList<Product>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_food);
         Intent intent = getIntent();
-        String data= intent.getStringExtra("id");
+        String restaurantId = intent.getStringExtra("restaurantId");
+        Log.d("restaurantId", restaurantId);
 
-        Log.d("dulieu",data);
-        //initView();
-        GetResturantData("a");
-        Button GoToCart = (Button)findViewById(R.id.btnGoToCart);
+        GetRestaurantProducts(restaurantId);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,new IntentFilter("custom-message"));
+        Button GoToCart = (Button) findViewById(R.id.btnGoToCart);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("custom-message"));
 
         GoToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrderFood.this, Cart.class);
-                intent.putExtra("ArraydeDataDishes",dataDishesTransferToCart);
-
-
+                intent.putExtra("productsInCart", productsInCart);
                 startActivity(intent);
-
             }
         });
     }
+
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-
-
-
-            dataDishesTransferToCart.add((DataDishDTO) intent.getSerializableExtra("dataDishesTransferToCart"));
-            Log.d("OrderFood",(dataDishesTransferToCart.get(0).getSoLuong()));
+            productsInCart.add((Product) intent.getSerializableExtra("addToCart"));
+            Log.d("OrderFood", "Size = " + productsInCart.size());
 
         }
     };
-    public  void initView(){
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.RView_OrderFood);
+
+    public void initView() {
+        Log.d("OrderFood","Jumped to InitView()");
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.RView_OrderFood);
         recyclerView.setHasFixedSize(true);
-        //GridLayoutManager layoutManager = new GridLayoutManager(this, StaggeredGridLayoutManager.VERTICAL);
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        // DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
-        // recyclerView.addItemDecoration(dividerItemDecoration);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.custom_divider);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.custom_divider);
         dividerItemDecoration.setDrawable(drawable);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        //arrayList.add (new DataShop(R.drawable.aaaa,"dien thoai"));
+        // Set products data to ListView
+        for (Product product: productsArray) {
+            Log.d("productsArray: ", product.getName());
+        }
 
-        //GetResturantData("a");
-
-        DataDishAdapter dataDishAdapter = new DataDishAdapter(arrayListDish,getApplicationContext());
-
-        recyclerView.setAdapter(dataDishAdapter);
-
+        ProductAdapter productAdapter = new ProductAdapter(productsArray, getApplicationContext());
+        recyclerView.setAdapter(productAdapter);
     }
 
-    public void GetResturantData(String data)
-    {
-        RequestQueue requestQueue = Volley.newRequestQueue(OrderFood.this);
-        String url = "https://api.androidhive.info/json/menu.json";
-        StringRequest StringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("Orderfood",response);
-                        try {
-                            Log.d("Orderfood",response);
-                            //JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArrayData = new JSONArray(response);
-                            // int total = Integer.parseInt(jsonObject.getString("total"));
-                            // JSONArray jsonArrayData = jsonObject.getJSONArray("data");
-//                    for (int i = 0 ; i< total ; i++)
-//                    {
-//                        JSONObject jsonObjectData = jsonArrayData.getJSONObject(i);
-//                        String NameRestaurant = jsonObjectData.getString("name");
-//                        String AddressRestaurant = jsonObjectData.getString("address");
-//                        String ImgRestaurant = "https://api.androidhive.info/images/food/1.jpg";
-//                          String Id= jsonObjectData.getString("_id");
-//                        arrayListRestaurants.add(new DataShop(ImgRestaurant,NameRestaurant,AddressRestaurant));
-//
-//
-//                    }
+    public void GetRestaurantProducts(String restaurantId) {
+        String baseUrl = "https://grabfood-api.herokuapp.com";
+
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
 
 
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
 
-                            for (int i = 0 ; i< 8 ; i++)
-                            {
-                                JSONObject jsonObjectData = jsonArrayData.getJSONObject(i);
-                                String NameRestaurant = jsonObjectData.getString("name");
-                                Log.d("Orderfood",NameRestaurant);
+        GetProductsByRestaurantIdInterface apiService = retrofit.create(GetProductsByRestaurantIdInterface.class);
+        Call<ProductsResponseFromAPI> call = apiService.getProductsByRestaurantId(restaurantId);
+        call.enqueue(new Callback<ProductsResponseFromAPI>() {
 
-                                String ImgRestaurant = jsonObjectData.getString("thumbnail");
-                                String Price = jsonObjectData.getString("price");
-                                arrayListDish.add(new DataDishDTO(ImgRestaurant,NameRestaurant,Price,"0"));
-
-                            }
-
-                            Log.d("Orderfood", String.valueOf(arrayListDish.size()));
-                            initView();
-                        } catch (JSONException e) {
-                            Log.d("Orderfood","bbbbbbbbbbbbbbbbbbbbb");
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Orderfood","ccccccccccccccccccccccccccc");
+            public void onResponse(Call<ProductsResponseFromAPI> call, Response<ProductsResponseFromAPI> response) {
+                Log.d("Get products", "Get products Response Code: " + response.code());
+                if (response.code() == 200) {
+                    ProductsResponseFromAPI productsResponseFromAPI = response.body();
+                    List<com.example.cefood.Model.Product> products = productsResponseFromAPI.getData();
+                    ArrayList<com.example.cefood.Model.Product> arrayListProducts = (ArrayList) products;
+                    productsArray = arrayListProducts;
+                    for (Product product : arrayListProducts) {
+                        Log.d("Get Product", product.getName());
+                    }
+                    initView();
+                } else {
+                    Log.d("Get products", "Get products Error.");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ProductsResponseFromAPI> call, Throwable t) {
+                Log.e("Get products", "Get products error: " + t.getMessage());
             }
         });
-        Log.d("Orderfood","ddddddddddddd");
-        requestQueue.add(StringRequest);
-
-        Log.d("Orderfood","eeeeeeeeeeeeeee");
     }
-
-
 }

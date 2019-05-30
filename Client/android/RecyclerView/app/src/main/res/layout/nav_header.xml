@@ -3,25 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="192dp"
     android:background="@color/colorBlue"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:orientation="vertical"
     android:gravity="bottom"
-    android:weightSum="4"
-    >
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:weightSum="4">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/header_name"
-        android:textSize="@dimen/header_text_size"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:background="@drawable/nav_backgroung"/>
+        android:background="@drawable/actionview_background" />
 
 </LinearLayout>

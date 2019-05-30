@@ -1,12 +1,12 @@
-package com.example.cefood.API.UserAPI;
+package com.example.cefood.API.RestaurantAPI;
 
-import com.example.cefood.Model.User;
+import com.example.cefood.Model.Restaurant;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class UserAPI {
+public class RestaurantsResponseFromAPI {
     @SerializedName("total")
     @Expose
     private Integer total;
@@ -18,22 +18,13 @@ public class UserAPI {
     private Integer skip;
     @SerializedName("data")
     @Expose
-    private List<User> data = null;
+    private List<Restaurant> data = null;
 
-    /**
-     * No args constructor for use in serialization
-     */
-    public UserAPI() {
+    public RestaurantsResponseFromAPI() {
+
     }
 
-    /**
-     * @param limit
-     * @param total
-     * @param data
-     * @param skip
-     */
-    public UserAPI(Integer total, Integer limit, Integer skip, List<User> data) {
-        super();
+    public RestaurantsResponseFromAPI(Integer total, Integer limit, Integer skip, List<Restaurant> data) {
         this.total = total;
         this.limit = limit;
         this.skip = skip;
@@ -48,7 +39,7 @@ public class UserAPI {
         this.total = total;
     }
 
-    public UserAPI withTotal(Integer total) {
+    public RestaurantsResponseFromAPI withTotal(Integer total) {
         this.total = total;
         return this;
     }
@@ -61,7 +52,7 @@ public class UserAPI {
         this.limit = limit;
     }
 
-    public UserAPI withLimit(Integer limit) {
+    public RestaurantsResponseFromAPI withLimit(Integer limit) {
         this.limit = limit;
         return this;
     }
@@ -74,23 +65,21 @@ public class UserAPI {
         this.skip = skip;
     }
 
-    public UserAPI withSkip(Integer skip) {
+    public RestaurantsResponseFromAPI withSkip(Integer skip) {
         this.skip = skip;
         return this;
     }
 
-    public List<User> getData() {
+    public List<Restaurant> getData() {
         return data;
     }
 
-    public void setData(List<User> data) {
+    public void setData(List<Restaurant> data) {
         this.data = data;
     }
 
-    public UserAPI withData(List<User> data) {
+    public RestaurantsResponseFromAPI withData(List<Restaurant> data) {
         this.data = data;
         return this;
     }
-
 }
-

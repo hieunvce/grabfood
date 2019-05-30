@@ -2,7 +2,7 @@ package com.example.cefood.DTO;
 
 import java.io.Serializable;
 
-public class DataDishDTO implements Serializable {
+public class Product implements Serializable {
     private String HinhAnh;
     private String Ten;
     private String Gia;
@@ -16,7 +16,7 @@ public class DataDishDTO implements Serializable {
         SoLuong = soLuong;
     }
 
-    public DataDishDTO(String hinhAnh, String ten, String gia, String soLuong) {
+    public Product(String hinhAnh, String ten, String gia, String soLuong) {
         HinhAnh = hinhAnh;
         Ten = ten;
         Gia = gia;

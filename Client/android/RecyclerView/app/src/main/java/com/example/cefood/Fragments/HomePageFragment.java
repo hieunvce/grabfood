@@ -12,155 +12,119 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.cefood.DTO.DataShopDTO;
+import com.example.cefood.API.RestaurantAPI.RestaurantAPIInterface;
+import com.example.cefood.API.RestaurantAPI.RestaurantsResponseFromAPI;
+import com.example.cefood.CustomAdapter.RestaurantAdapter;
+import com.example.cefood.Model.Restaurant;
 import com.example.cefood.R;
-import com.example.cefood.CustomAdapter.ShopAdapter;
 import com.example.cefood.location;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomePageFragment extends Fragment {
-    ArrayList<DataShopDTO> arrayListRestaurants = new ArrayList<>();
+
+    ArrayList<Restaurant> arrayListRestaurants = new ArrayList<>();
+
     RecyclerView RecyclerViewHorizontal;
-    RecyclerView RecyclerViewVertical ;
+
     TextView user_address;
-    private static final int REQUEST_CODE= 0x01;
+    private static final int REQUEST_CODE = 0x01;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
-        View view = inflater.inflate(R.layout.home_page_fragment,parent,false);
+        View view = inflater.inflate(R.layout.home_page_fragment, parent, false);
         RecyclerViewHorizontal = view.findViewById(R.id.RView_RestaurantNearYou);
         user_address = view.findViewById(R.id.tv_user_address);
-        //initRecylerViewHorizontal();
-        //initRecylerViewVertical();
-        GetResturantData("a");
+
+        GetRestaurantsData();
 
         user_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), location.class);
                 startActivityForResult(intent, REQUEST_CODE);
-
             }
         });
         return view;
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
-        if(requestCode == REQUEST_CODE) {
-
-            // resultCode được set bởi DetailActivity
-            // RESULT_OK chỉ ra rằng kết quả này đã thành công
-            if(resultCode == Activity.RESULT_OK) {
-                // Nhận dữ liệu từ Intent trả về
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 final String result = data.getStringExtra("address");
 
-                // Sử dụng kết quả result bằng cách hiện Toast
-                if (!result.equals(""))
-                {
+                if (!result.equals("")) {
                     user_address.setText(result);
                 }
             } else {
-                // DetailActivity không thành công, không có data trả về.
             }
         }
     }
 
-
-
-
-
-    public  void initRecylerViewHorizontal(){
+    public  void initRecyclerViewHorizontal(){
         RecyclerViewHorizontal.setHasFixedSize(true);
-        //GridLayoutManager layoutManager = new GridLayoutManager(this, StaggeredGridLayoutManager.VERTICAL);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         RecyclerViewHorizontal.setLayoutManager(layoutManager);
-        // DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
-        // recyclerView.addItemDecoration(dividerItemDecoration);
-
-        ShopAdapter shopAdapter = new ShopAdapter(arrayListRestaurants,getActivity().getApplicationContext());
-        RecyclerViewHorizontal.setAdapter(shopAdapter);
+        RestaurantAdapter restaurantAdapter = new RestaurantAdapter(arrayListRestaurants,getActivity().getApplicationContext());
+        RecyclerViewHorizontal.setAdapter(restaurantAdapter);
     }
 
 
-    public void GetResturantData(String data)
-    {
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url = "https://api.androidhive.info/json/menu.json";
-        StringRequest StringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("ketqua",response);
-                        try {
-                            Log.d("ket___qua",response);
-                            //JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArrayData = new JSONArray(response);
-                            // int total = Integer.parseInt(jsonObject.getString("total"));
-                            // JSONArray jsonArrayData = jsonObject.getJSONArray("data");
-//                    for (int i = 0 ; i< total ; i++)
-//                    {
-//                        JSONObject jsonObjectData = jsonArrayData.getJSONObject(i);
-//                        String NameRestaurant = jsonObjectData.getString("name");
-//                        String AddressRestaurant = jsonObjectData.getString("address");
-//                        String ImgRestaurant = "https://api.androidhive.info/images/food/1.jpg";
-//                          String Id= jsonObjectData.getString("_id");
-//                        arrayListRestaurants.add(new DataShop(ImgRestaurant,NameRestaurant,AddressRestaurant));
-//
-//
-//                    }
+    public void GetRestaurantsData() {
+        String baseUrl = "https://grabfood-api.herokuapp.com";
+
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
 
 
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
 
-                            for (int i = 0 ; i< 8 ; i++)
-                            {
-                                JSONObject jsonObjectData = jsonArrayData.getJSONObject(i);
-                                String NameRestaurant = jsonObjectData.getString("name");
-                                Log.d("NameRestaurant",NameRestaurant);
-                                String AddressRestaurant = jsonObjectData.getString("description");
-                                String ImgRestaurant = jsonObjectData.getString("thumbnail");
-                                arrayListRestaurants.add(new DataShopDTO(ImgRestaurant,NameRestaurant,AddressRestaurant,"123456789"));
+        RestaurantAPIInterface apiService = retrofit.create(RestaurantAPIInterface.class);
+        Call<RestaurantsResponseFromAPI> call = apiService.getRestaurants();
+        call.enqueue(new Callback<RestaurantsResponseFromAPI>() {
 
-                            }
-
-                            Log.d("Test_array", String.valueOf(arrayListRestaurants.size()));
-                            initRecylerViewHorizontal();
-                        } catch (JSONException e) {
-                            Log.d("loi_ne","bbbbbbbbbbbbbbbbbbbbb");
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("loi_ne","ccccccccccccccccccccccccccc");
+            public void onResponse(Call<RestaurantsResponseFromAPI> call, Response<RestaurantsResponseFromAPI> response) {
+                Log.d("Get restaurants", "Get restaurant Response Code: " + response.code());
+                if (response.code() == 200) {
+                    RestaurantsResponseFromAPI restaurantsResponseFromAPI = response.body();
+                    List<Restaurant> restaurants = restaurantsResponseFromAPI.getData();
+                    arrayListRestaurants = (ArrayList) restaurants;
+                    for (Restaurant restaurant:arrayListRestaurants) {
+                        Log.d("Get Restaurant",restaurant.getName());
+                    }
+                    initRecyclerViewHorizontal();
+                } else {
+                    Log.d("Get restaurants", "Get restaurants Error.");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<RestaurantsResponseFromAPI> call, Throwable t) {
+                Log.e("Get restaurants", "Get restaurants error: " + t.getMessage());
             }
         });
-        Log.d("loi_ne","ddddddddddddd");
-        requestQueue.add(StringRequest);
-
-        Log.d("loi_ne","eeeeeeeeeeeeeee");
     }
 }

@@ -10,19 +10,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.cefood.CustomAdapter.DataCartAdapter;
-import com.example.cefood.DTO.DataDishDTO;
+import com.example.cefood.DTO.Product;
 
 import java.util.ArrayList;
 
 public class Cart extends AppCompatActivity {
-    ArrayList<DataDishDTO> dataDishes = new ArrayList<>();
+    ArrayList<Product> dataDishes = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         Intent intent=getIntent();
 
-        dataDishes= (ArrayList<DataDishDTO>) intent.getSerializableExtra("ArraydeDataDishes");
+        dataDishes= (ArrayList<Product>) intent.getSerializableExtra("ArraydeDataDishes");
         initView();
     }
 
@@ -43,7 +43,7 @@ public class Cart extends AppCompatActivity {
 
         //arrayList.add (new DataShop(R.drawable.aaaa,"dien thoai"));
 
-        //GetResturantData("a");
+        //GetRestaurantsData("a");
 
 
         DataCartAdapter dataCartAdapter = new DataCartAdapter(dataDishes,getApplicationContext());
