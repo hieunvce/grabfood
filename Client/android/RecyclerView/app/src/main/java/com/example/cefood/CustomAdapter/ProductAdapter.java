@@ -155,10 +155,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     orderedProduct.setProduct(products.get(adapterPosition));
                     orderedProduct.setQuantity(Integer.parseInt(txtQuantity.getText().toString()));
                     Intent intent = new Intent("custom-message");
+                    // TODO: Xem lai broadcast va cho nay
                     intent.putExtra("addToCart", (Serializable) orderedProduct);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                     Log.d("addToCart", ""+orderedProduct.getProduct().getName() + " "+orderedProduct.getQuantity());
                     userSelectProductDialog.dismiss();
+                    //TODO: Tinh nang thanh toan va xem lich su
                 }
             });
         }

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -18,12 +19,15 @@ import android.widget.Button;
 
 import com.example.cefood.API.ProductAPI.GetProductsByRestaurantIdInterface;
 import com.example.cefood.API.ProductAPI.ProductsResponseFromAPI;
+import com.example.cefood.AppHelper.WorkWithSharePreferences;
 import com.example.cefood.CustomAdapter.ProductAdapter;
 import com.example.cefood.Model.OrderDetail;
 import com.example.cefood.Model.Product;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderFood extends AppCompatActivity {
     ArrayList<Product> productsArray = new ArrayList<Product>();
-    ArrayList<OrderDetail> orderedProducts = new ArrayList<OrderDetail>();
+    WorkWithSharePreferences workWithSharePreferences = new WorkWithSharePreferences();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +59,10 @@ public class OrderFood extends AppCompatActivity {
         GoToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+                //ArrayList<OrderDetail> orderedProducts = workWithSharePreferences.getOrderDetailArrayList(sharedPreferences);
                 Intent intent = new Intent(OrderFood.this, Cart.class);
-                intent.putExtra("productsInCart", (Serializable) orderedProducts);
+                //intent.putExtra("productsInCart", (Serializable) orderedProducts);
                 startActivity(intent);
             }
         });
@@ -65,26 +71,40 @@ public class OrderFood extends AppCompatActivity {
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            OrderDetail receivedOrderDetail =(OrderDetail) intent.getSerializableExtra("addToCart");
+
+            OrderDetail receivedOrderDetail = (OrderDetail) intent.getSerializableExtra("addToCart");
+
+            Log.d("OrderFood", "onReceive: "+receivedOrderDetail.getProduct().getName() + " " + receivedOrderDetail.getQuantity());
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+
+            // Get data from SharedPreferences
+            ArrayList<OrderDetail> orderedProducts = workWithSharePreferences.getOrderDetailArrayList(sharedPreferences);
+
             boolean existedInCart = false;
-            for (OrderDetail orderDetail:orderedProducts) {
-                if (orderDetail.getProduct().getId().equals(receivedOrderDetail.getProduct().getId())){
-                    orderDetail.setQuantity(orderDetail.getQuantity()+receivedOrderDetail.getQuantity());
-                    existedInCart = true;
+            int existProductIndex = 0;
+            for (int i =0; i< orderedProducts.size();i++) {
+                if (orderedProducts.get(i).getProduct().getId().equals(receivedOrderDetail.getProduct().getId())) {
+                    existProductIndex = i;
+                    existedInCart=true;
+                    break;
                 }
             }
-            if (existedInCart == false){
+            if (existedInCart == true) {
+                int oldQuantity = orderedProducts.get(existProductIndex).getQuantity();
+                Log.d("OrderFood", "oldQuantity"+oldQuantity);
+                int newQuantity = oldQuantity + receivedOrderDetail.getQuantity();
+                Log.d("OrderFood", "newQuantity"+newQuantity);
+                orderedProducts.get(existProductIndex).setQuantity(newQuantity);
+            } else {
                 orderedProducts.add(receivedOrderDetail);
             }
 
-            Log.d("OrderFood", "Size = " + orderedProducts.size());
-
+            workWithSharePreferences.saveOrderDetailArrayList(orderedProducts, sharedPreferences);
         }
     };
 
     public void initView() {
-        Log.d("OrderFood","Jumped to InitView()");
+        Log.d("OrderFood", "Jumped to InitView()");
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.RView_OrderFood);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -95,7 +115,7 @@ public class OrderFood extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         // Set products data to ListView
-        for (Product product: productsArray) {
+        for (Product product : productsArray) {
             Log.d("productsArray: ", product.getName());
         }
 
