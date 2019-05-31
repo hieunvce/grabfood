@@ -13,12 +13,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.cefood.API.OrderAPI.OrderAPIInterface;
+import com.example.cefood.API.OrderAPI.OrderForm;
+import com.example.cefood.API.OrderAPI.OrderFormItem;
+import com.example.cefood.API.UserAPI.AccessToken;
 import com.example.cefood.AppHelper.WorkWithSharePreferences;
 import com.example.cefood.CustomAdapter.DataCartAdapter;
 import com.example.cefood.Model.OrderDetail;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Cart extends AppCompatActivity implements OnItemClick {
     ArrayList<OrderDetail> productsInCart = new ArrayList<OrderDetail>();
@@ -65,7 +80,11 @@ public class Cart extends AppCompatActivity implements OnItemClick {
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Do something
+                // TODO: Do something
+                for (OrderDetail orderDetail:productsInCart) {
+                    Log.d("Checkout",""+orderDetail.getProduct().getName()+": "+orderDetail.getQuantity());
+                }
+                checkout();
             }
         });
     }
@@ -88,5 +107,63 @@ public class Cart extends AppCompatActivity implements OnItemClick {
         Log.d("Cart","newTotalPayment "+totalPayment);
         txtTotalPayment.setText(Integer.toString(totalPayment));
         this.recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    void checkout() {
+        String baseUrl = "https://grabfood-api.herokuapp.com";
+
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        OrderAPIInterface apiService = retrofit.create(OrderAPIInterface.class);
+
+        final SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+        String accessToken = sharedPreferences.getString("accessToken", null);
+        if (accessToken != null) {
+            ArrayList<OrderFormItem> items = new ArrayList<>();
+            for (OrderDetail item : productsInCart) {
+                OrderFormItem orderFormItem = new OrderFormItem();
+                orderFormItem.setImg(item.getProduct().getImg());
+                orderFormItem.setName(item.getProduct().getName());
+                orderFormItem.setPrice(item.getProduct().getPrice());
+                orderFormItem.setQuantity(item.getQuantity());
+                items.add(orderFormItem);
+            }
+            OrderForm orderForm = new OrderForm();
+            orderForm.setItems(items);
+            orderForm.setTotal(totalPayment);
+
+            Call<ResponseBody> call = apiService.addOrder(accessToken, orderForm);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Log.d("Add order", "Add order Response Code: " + response.code());
+                    if (response.code() == 201) {
+                        Log.d("Add order", "Add order success: " + response.code());
+                        // TODO: Remove SharedPreferences
+                        sharedPreferences.edit().remove("orderDetailArrayList").commit();
+                        Intent intent = new Intent(Cart.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Log.d("Add order", "Add order Error.");
+                        Toast.makeText(Cart.this, "Add order failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("Add order", "Add order failed: " + t.getMessage());
+                    Toast.makeText(Cart.this, "Add order failed!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

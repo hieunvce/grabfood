@@ -1,6 +1,7 @@
 package com.example.cefood.AppHelper;
 
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.example.cefood.Model.OrderDetail;
 import com.google.gson.Gson;
@@ -12,7 +13,7 @@ public class WorkWithSharePreferences {
     public ArrayList<OrderDetail> getOrderDetailArrayList(SharedPreferences sharedPreferences){
         ArrayList<OrderDetail> orderDetails =  new ArrayList<OrderDetail>();
         String orderedProductsJson = sharedPreferences.getString("orderDetailArrayList", null);
-        if (orderedProductsJson != null) {
+        if (!TextUtils.isEmpty(orderedProductsJson)) {
             Gson gson = new Gson();
             OrderDetail orderDetailArray[] = gson.fromJson(orderedProductsJson, OrderDetail[].class);
             orderDetails = new ArrayList<OrderDetail>(Arrays.asList(orderDetailArray));
