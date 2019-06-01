@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/lightGray"
     android:orientation="vertical"
-    tools:context=".Activity.OrderFood"
-    android:animateLayoutChanges="true"
-    >
+    tools:context=".Activity.OrderFood">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -31,7 +30,7 @@
         android:id="@+id/totalRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnCheckout"
+        android:layout_above="@+id/gr_address"
         android:layout_margin="@dimen/margin_basex2">
 
         <TextView
@@ -49,8 +48,39 @@
             android:layout_alignParentRight="true"
             android:text="$$$$$$$$"
             android:textColor="@color/colorBlack"
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/gr_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnCheckout"
+        android:layout_margin="@dimen/margin_basex2">
+
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/str_address" />
+
+        <TextView
+            android:id="@+id/tv_user_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/txtAddress"
+            android:textAlignment="textEnd"
+            android:gravity="end"
+            android:text="@string/ho_chi_minh" />
+
     </RelativeLayout>
 
     <Button
@@ -59,10 +89,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorBlue"
+        android:elevation="1dp"
         android:text="@string/paycheck"
         android:textColor="@color/colorBlack"
-        android:textStyle="bold"
-        android:elevation="1dp"/>
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

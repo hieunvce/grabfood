@@ -19,46 +19,6 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/txtAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:inputType="textPersonName"
-                    android:layout_marginTop="14dp"
-                    android:text="@string/str_address"
-                    />
-
-                <ImageButton
-                    android:id="@+id/imgAddress"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_toRightOf="@id/txtAddress"
-                    android:src="@android:drawable/presence_online"
-                    android:layout_toEndOf="@id/txtAddress"
-                    android:layout_marginTop="15dp"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_user_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_toRightOf="@id/imgAddress"
-                    android:text="@string/ho_chi_minh"
-                    android:layout_toEndOf="@id/imgAddress"
-                    android:layout_marginTop="15dp"
-                    />
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/LayoutFindFood"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

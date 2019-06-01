@@ -36,46 +36,19 @@ public class HomePageFragment extends Fragment {
 
     RecyclerView RecyclerViewHorizontal;
 
-    TextView user_address;
-    private static final int REQUEST_CODE = 0x01;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.home_page_fragment, parent, false);
         RecyclerViewHorizontal = view.findViewById(R.id.RView_RestaurantNearYou);
-        user_address = view.findViewById(R.id.tv_user_address);
-
         GetRestaurantsData();
-
-        user_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), location.class);
-                startActivityForResult(intent, REQUEST_CODE);
-            }
-        });
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                final String result = data.getStringExtra("address");
-
-                if (!result.equals("")) {
-                    user_address.setText(result);
-                }
-            } else {
-            }
-        }
     }
 
     public  void initRecyclerViewHorizontal(){
