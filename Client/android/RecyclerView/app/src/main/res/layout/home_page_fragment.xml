@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/nav_backgroung"
     tools:context=".Activity.MainActivity">
 
     <com.amar.library.ui.StickyScrollView
@@ -57,18 +58,6 @@
                     />
 
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/str_store_near_you"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/RView_RestaurantNearYou"

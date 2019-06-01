@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.location"
     android:orientation="vertical"
+    android:background="@drawable/nav_backgroung"
     >
 
     <EditText
@@ -15,16 +16,12 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="25dp"
-
         android:hint="@string/findAddress"/>
-
-
 
 
 
     <Button
         android:id="@+id/addresses_b"
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="getAddressesByName"

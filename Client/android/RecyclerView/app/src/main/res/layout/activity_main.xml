@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/lightGray"
+    android:background="@drawable/nav_backgroung"
     android:gravity="start"
     tools:openDrawer="start"
     android:animateLayoutChanges="true">
