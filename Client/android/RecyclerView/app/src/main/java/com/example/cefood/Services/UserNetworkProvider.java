@@ -18,8 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.cefood.Fragments.HistoryPageFragment.userHistories;
-import static com.example.cefood.LoginActivity.login_status;
+import static com.example.cefood.Activity.LoginActivity.login_status;
 
 public class UserNetworkProvider {
 
@@ -91,7 +90,7 @@ public class UserNetworkProvider {
                                 userHistory.setFood(historyObject.getString("foodname"));
                                 userHistory.setPrice(historyObject.getString("price"));
                                 userHistory.setDate(historyObject.getString("date"));
-                                userHistories.add(userHistory); // add data vào array hiển thị listview
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

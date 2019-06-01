@@ -3,7 +3,9 @@ package com.example.cefood.API.OrderAPI;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class OrderItemFromAPI {
+import java.io.Serializable;
+
+public class OrderItemFromAPI implements Serializable {
 
     @SerializedName("_id")
     @Expose

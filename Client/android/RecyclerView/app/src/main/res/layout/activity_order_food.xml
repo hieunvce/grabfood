@@ -4,42 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
-    tools:context=".OrderFood">
+    tools:context=".Activity.OrderFood">
+
     <com.amar.library.ui.StickyScrollView
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        app:stickyHeader="@+id/btnGoToCart"
-        >
-        <LinearLayout
+        app:stickyHeader="@+id/btnGoToCart">
+
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/gotocart"
-                android:id="@+id/btnGoToCart"
-                />
-
-
-
+            android:orientation="vertical"
+            android:background="@color/lightGray">
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/RView_OrderFood"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/RView_OrderFood"
-                android:layout_marginTop="5dp"
+                android:layout_above="@+id/btnGoToCart"
                 android:layout_marginLeft="5dp"
-                >
+                android:layout_marginTop="5dp">
 
             </android.support.v7.widget.RecyclerView>
 
+            <Button
+                android:id="@+id/btnGoToCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBlue"
+                android:text="@string/gotocart"
+                android:layout_alignParentBottom="true"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </com.amar.library.ui.StickyScrollView>

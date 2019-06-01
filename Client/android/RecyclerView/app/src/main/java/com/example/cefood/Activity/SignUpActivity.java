@@ -1,4 +1,4 @@
-package com.example.cefood;
+package com.example.cefood.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,11 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.cefood.API.UserAPI.AccessToken;
 import com.example.cefood.API.UserAPI.EditUserForm;
-import com.example.cefood.API.UserAPI.LoginForm;
 import com.example.cefood.API.UserAPI.UserAPIInterface;
 import com.example.cefood.Model.User;
+import com.example.cefood.R;
 
 import java.util.concurrent.TimeUnit;
 

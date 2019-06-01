@@ -1,4 +1,4 @@
-package com.example.cefood;
+package com.example.cefood.Activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,11 +23,9 @@ import com.example.cefood.AppHelper.WorkWithSharePreferences;
 import com.example.cefood.CustomAdapter.ProductAdapter;
 import com.example.cefood.Model.OrderDetail;
 import com.example.cefood.Model.Product;
-import com.google.gson.Gson;
+import com.example.cefood.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -61,7 +59,7 @@ public class OrderFood extends AppCompatActivity {
             public void onClick(View v) {
                 //SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
                 //ArrayList<OrderDetail> orderedProducts = workWithSharePreferences.getOrderDetailArrayList(sharedPreferences);
-                Intent intent = new Intent(OrderFood.this, Cart.class);
+                Intent intent = new Intent(OrderFood.this, CartActivity.class);
                 //intent.putExtra("productsInCart", (Serializable) orderedProducts);
                 startActivity(intent);
             }
@@ -109,11 +107,6 @@ public class OrderFood extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.custom_divider);
-        dividerItemDecoration.setDrawable(drawable);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
         // Set products data to ListView
         for (Product product : productsArray) {
             Log.d("productsArray: ", product.getName());

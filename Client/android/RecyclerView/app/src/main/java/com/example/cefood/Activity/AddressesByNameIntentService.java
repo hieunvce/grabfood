@@ -1,4 +1,4 @@
-package com.example.cefood;
+package com.example.cefood.Activity;
 
 import android.app.IntentService;
 import android.content.Intent;

@@ -12,6 +12,7 @@
     <color name="colorBlack">#000</color>
     <color name="colorGrey">#535353</color>
     <color name="colorHafWhite">#a9a9a9</color>
+    <color name="lightGray">#D0D0D0</color>
     <color name="item_name">#535353</color>
     <color name="description">#a9a9a9</color>
     <color name="white">#FFFFFF</color>

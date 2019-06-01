@@ -3,24 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGray"
     android:orientation="vertical"
-    tools:context="MainActivity"
-    >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_history"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:background="@color/colorOrange"
-            android:textStyle="bold"
-            />
-        <ListView
-            android:id="@+id/lv_user_history"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_basex2"
-            android:paddingBottom="@dimen/margin_basex2">
+    tools:context=".Activity.MainActivity">
 
-        </ListView>
+    <ListView
+        android:id="@+id/lv_user_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:paddingBottom="@dimen/margin_basex2"></ListView>
 </LinearLayout>

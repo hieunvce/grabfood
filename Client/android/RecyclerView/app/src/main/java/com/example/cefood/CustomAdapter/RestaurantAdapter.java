@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.cefood.Model.Restaurant;
-import com.example.cefood.OrderFood;
+import com.example.cefood.Activity.OrderFood;
 import com.example.cefood.R;
 import com.squareup.picasso.Picasso;
 
@@ -73,7 +73,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(itemView.getContext(), "Selected "+ txtName.getText(), Toast.LENGTH_SHORT).show();
                     TransferDataToOderFood(getAdapterPosition());
 
                 }

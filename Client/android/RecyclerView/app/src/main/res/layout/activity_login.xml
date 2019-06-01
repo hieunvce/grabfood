@@ -7,7 +7,8 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".LoginActivity">
+    tools:context=".Activity.LoginActivity"
+    android:animateLayoutChanges="true">
 
     <ImageView
         android:layout_width="90dp"

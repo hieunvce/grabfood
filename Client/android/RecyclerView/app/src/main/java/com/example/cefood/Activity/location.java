@@ -1,4 +1,4 @@
-package com.example.cefood;
+package com.example.cefood.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.cefood.R;
 
 public class location extends AppCompatActivity {
 

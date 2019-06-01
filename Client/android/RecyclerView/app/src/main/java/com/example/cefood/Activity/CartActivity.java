@@ -1,4 +1,4 @@
-package com.example.cefood;
+package com.example.cefood.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,13 +18,12 @@ import android.widget.Toast;
 import com.example.cefood.API.OrderAPI.OrderAPIInterface;
 import com.example.cefood.API.OrderAPI.OrderForm;
 import com.example.cefood.API.OrderAPI.OrderFormItem;
-import com.example.cefood.API.UserAPI.AccessToken;
 import com.example.cefood.AppHelper.WorkWithSharePreferences;
 import com.example.cefood.CustomAdapter.DataCartAdapter;
 import com.example.cefood.Model.OrderDetail;
+import com.example.cefood.R;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -35,7 +34,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Cart extends AppCompatActivity implements OnItemClick {
+public class CartActivity extends AppCompatActivity implements OnItemClick {
     ArrayList<OrderDetail> productsInCart = new ArrayList<OrderDetail>();
     WorkWithSharePreferences workWithSharePreferences = new WorkWithSharePreferences();
     RecyclerView recyclerView;
@@ -49,6 +48,7 @@ public class Cart extends AppCompatActivity implements OnItemClick {
         Intent intent = getIntent();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
         productsInCart = workWithSharePreferences.getOrderDetailArrayList(sharedPreferences);
+        totalPayment = 0;
         for (OrderDetail orderDetail : productsInCart) {
             totalPayment += orderDetail.getQuantity() * orderDetail.getProduct().getPrice();
         }
@@ -59,22 +59,17 @@ public class Cart extends AppCompatActivity implements OnItemClick {
 
     public void initView() {
 
-        // RecyclerView Items On Cart
+        // RecyclerView Items On CartActivity
         this.recyclerView = (RecyclerView) findViewById(R.id.RView_Cart);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.custom_divider);
-        dividerItemDecoration.setDrawable(drawable);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
         DataCartAdapter dataCartAdapter = new DataCartAdapter(productsInCart, getApplicationContext(),this);
         recyclerView.setAdapter(dataCartAdapter);
         Button btnCheckout;
         btnCheckout = findViewById(R.id.btnCheckout);
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
-        int totalPayment = workWithSharePreferences.getTotalPayment(sharedPreferences);
+//        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+//        int totalPayment = workWithSharePreferences.getTotalPayment(sharedPreferences);
         txtTotalPayment.setText(Integer.toString(totalPayment));
 
         btnCheckout.setOnClickListener(new View.OnClickListener() {
@@ -91,21 +86,28 @@ public class Cart extends AppCompatActivity implements OnItemClick {
 
     @Override
     public void onClick(int index, int sign) {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
         // sign = 1 => +
         // sign = 0 => -
         if (sign == 1) {
             productsInCart.get(index).setQuantity(productsInCart.get(index).getQuantity() + 1);
-            totalPayment+=productsInCart.get(index).getProduct().getPrice();
+            //totalPayment+=productsInCart.get(index).getProduct().getPrice();
         } else if (sign ==0){
             productsInCart.get(index).setQuantity(productsInCart.get(index).getQuantity() - 1);
             if (productsInCart.get(index).getQuantity() <= 0){
                 productsInCart.remove(index);
             } else {
-                totalPayment+=productsInCart.get(index).getProduct().getPrice();
+                //totalPayment-=productsInCart.get(index).getProduct().getPrice();
             }
         }
-        Log.d("Cart","newTotalPayment "+totalPayment);
+        totalPayment=0;
+        for (OrderDetail orderDetail : productsInCart) {
+            totalPayment += orderDetail.getQuantity() * orderDetail.getProduct().getPrice();
+        }
+        Log.d("CartActivity","newTotalPayment "+totalPayment);
         txtTotalPayment.setText(Integer.toString(totalPayment));
+        workWithSharePreferences.saveTotalPayment(totalPayment, sharedPreferences);
+        workWithSharePreferences.saveOrderDetailArrayList(productsInCart,sharedPreferences);
         this.recyclerView.getAdapter().notifyDataSetChanged();
     }
 
@@ -150,18 +152,18 @@ public class Cart extends AppCompatActivity implements OnItemClick {
                         Log.d("Add order", "Add order success: " + response.code());
                         // TODO: Remove SharedPreferences
                         sharedPreferences.edit().remove("orderDetailArrayList").commit();
-                        Intent intent = new Intent(Cart.this, MainActivity.class);
+                        Intent intent = new Intent(CartActivity.this, MainActivity.class);
                         startActivity(intent);
                     } else {
                         Log.d("Add order", "Add order Error.");
-                        Toast.makeText(Cart.this, "Add order failed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CartActivity.this, "Add order failed!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Log.e("Add order", "Add order failed: " + t.getMessage());
-                    Toast.makeText(Cart.this, "Add order failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CartActivity.this, "Add order failed!", Toast.LENGTH_SHORT).show();
                 }
             });
         }

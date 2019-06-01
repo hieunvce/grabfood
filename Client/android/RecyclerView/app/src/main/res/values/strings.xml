@@ -11,9 +11,9 @@
     <string name="ho_chi_minh">Ho Chi Minh</string>
     <string name="user">User</string>
     <string name="food">Food</string>
-    <string name="prices">Price</string>
+    <string name="prices">Total payment</string>
     <string name="date">Date</string>
-    <string name="user_history">User History</string>
+    <string name="user_history">History</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

@@ -96,7 +96,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Selected " + txtProductName.getText(), Toast.LENGTH_SHORT).show();
 
                     context = itemView.getContext();
                     userSelectProductDialog = new Dialog(context);

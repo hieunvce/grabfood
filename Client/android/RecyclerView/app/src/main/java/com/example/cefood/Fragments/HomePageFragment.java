@@ -17,7 +17,7 @@ import com.example.cefood.API.RestaurantAPI.RestaurantsResponseFromAPI;
 import com.example.cefood.CustomAdapter.RestaurantAdapter;
 import com.example.cefood.Model.Restaurant;
 import com.example.cefood.R;
-import com.example.cefood.location;
+import com.example.cefood.Activity.location;
 
 import java.util.ArrayList;
 import java.util.List;

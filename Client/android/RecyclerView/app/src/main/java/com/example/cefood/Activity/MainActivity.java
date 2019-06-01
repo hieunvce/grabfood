@@ -1,4 +1,4 @@
-package com.example.cefood;
+package com.example.cefood.Activity;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.cefood.Fragments.HistoryPageFragment;
 import com.example.cefood.Fragments.HomePageFragment;
+import com.example.cefood.R;
 
 public class MainActivity extends AppCompatActivity {
 

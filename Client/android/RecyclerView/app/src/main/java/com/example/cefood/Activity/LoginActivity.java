@@ -1,4 +1,4 @@
-package com.example.cefood;
+package com.example.cefood.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.cefood.API.UserAPI.AccessToken;
 import com.example.cefood.API.UserAPI.LoginForm;
 import com.example.cefood.API.UserAPI.UserAPIInterface;
+import com.example.cefood.R;
 import com.example.cefood.Services.UserNetworkProvider;
 
 import java.util.concurrent.TimeUnit;

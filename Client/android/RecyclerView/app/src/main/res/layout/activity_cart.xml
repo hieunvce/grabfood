@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGray"
     android:orientation="vertical"
-    tools:context=".OrderFood">
+    tools:context=".Activity.OrderFood"
+    android:animateLayoutChanges="true"
+    >
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -45,7 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="$$$$$$$$"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
             android:textSize="20sp" />
     </RelativeLayout>
 
@@ -54,10 +58,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorBlue"
         android:text="@string/paycheck"
         android:textColor="@color/colorBlack"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:elevation="1dp"/>
 
 
 </RelativeLayout>
