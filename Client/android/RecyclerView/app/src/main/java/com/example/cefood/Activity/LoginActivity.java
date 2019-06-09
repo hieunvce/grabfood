@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.cefood.API.UserAPI.AccessToken;
 import com.example.cefood.API.UserAPI.LoginForm;
 import com.example.cefood.API.UserAPI.UserAPIInterface;
+import com.example.cefood.API.UserAPI.UserResponseFromAPI;
 import com.example.cefood.R;
 import com.example.cefood.Services.UserNetworkProvider;
 
@@ -119,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                 .client(okHttpClient)
                 .build();
 
-        UserAPIInterface apiService = retrofit.create(UserAPIInterface.class);
+        final UserAPIInterface apiService = retrofit.create(UserAPIInterface.class);
         LoginForm loginForm = new LoginForm("local", this.username, this.password);
         Log.d("Login", "Login Form: " + loginForm.getStrategy() + loginForm.getEmail() + loginForm.getPassword());
         Call<AccessToken> call = apiService.logIn(loginForm);
@@ -154,5 +155,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }

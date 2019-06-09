@@ -5,8 +5,10 @@
     <string name="str_address">Giao tới </string>
     <string name="str_discover_store">Khám phá danh mục </string>
     <string name="str_store_near_you">Quán gần với bạn</string>
-    <string name="home">Home Page</string>
+    <string name="home">Restaurants</string>
     <string name="history">History</string>
+    <string name="cart">Cart</string>
+    <string name="logout">Logout</string>
     <string name="header_name">App Order Food Menu</string>
     <string name="ho_chi_minh">Ho Chi Minh</string>
     <string name="user">User</string>

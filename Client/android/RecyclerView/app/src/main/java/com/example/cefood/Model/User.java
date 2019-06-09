@@ -27,6 +27,9 @@ public class User implements Serializable {
     @SerializedName("img")
     @Expose
     private String img;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -152,6 +155,18 @@ public class User implements Serializable {
 
     public User withImg(String img) {
         this.img = img;
+        return this;
+    }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public User withPhone(String phone) {
+        this.phone = phone;
         return this;
     }
 

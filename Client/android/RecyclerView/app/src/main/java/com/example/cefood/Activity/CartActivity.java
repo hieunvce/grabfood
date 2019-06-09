@@ -227,7 +227,8 @@ public class CartActivity extends AppCompatActivity implements OnItemClick {
                         Log.d("Add order", "Add order success: " + response.code());
                         // TODO: Remove SharedPreferences
                         sharedPreferences.edit().remove("orderDetailArrayList").commit();
-
+                        Intent intent = new Intent(CartActivity.this, MainActivity.class);
+                        startActivity(intent);
                     } else {
                         Log.d("Add order", "Add order Error.");
                         Toast.makeText(CartActivity.this, "Add order failed!", Toast.LENGTH_SHORT).show();
