@@ -19,8 +19,7 @@ module.exports = function (app) {
   const orders = new Schema({
     userId: {
       type: ObjectId,
-      ref: 'users',
-      required: true
+      ref: 'users'
     },
     deliveryStatus: { type: Boolean, default: false },
     items:
