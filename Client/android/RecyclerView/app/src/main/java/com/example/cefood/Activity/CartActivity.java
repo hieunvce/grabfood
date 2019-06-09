@@ -187,7 +187,7 @@ public class CartActivity extends AppCompatActivity implements OnItemClick {
     }
 
     void checkout() {
-        String baseUrl = "https://grabfood-api.herokuapp.com";
+        String baseUrl = "https://cefood.herokuapp.com";
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)

@@ -49,7 +49,7 @@ public class HistoryPageFragment extends Fragment {
     }
 
     public void getOrderHistory(){
-        String baseUrl = "https://grabfood-api.herokuapp.com";
+        String baseUrl = "https://cefood.herokuapp.com";
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -68,15 +68,16 @@ public class HistoryPageFragment extends Fragment {
         String accessToken = sharedPreferences.getString("accessToken", null);
         if (accessToken != null) {
 
-            Call<OrderResponseFromAPI> call = apiService.getOrdersByUserId(accessToken);
-            call.enqueue(new Callback<OrderResponseFromAPI>() {
+            Call<List<OrderDataFromAPI>> call = apiService.getOrdersByUserId(accessToken);
+            call.enqueue(new Callback<List<OrderDataFromAPI>>() {
                 @Override
-                public void onResponse(Call<OrderResponseFromAPI> call, Response<OrderResponseFromAPI> response) {
+                public void onResponse(Call<List<OrderDataFromAPI>> call, Response<List<OrderDataFromAPI>> response) {
                     Log.d("Get order", "Get order Response Code: " + response.code());
                     if (response.code() == 200) {
                         Log.d("Get order", "Get order success: " + response.code());
-                        OrderResponseFromAPI orderResponseFromAPIS = response.body();
-                        userHistories = orderResponseFromAPIS.getData();
+                        //OrderResponseFromAPI orderResponseFromAPIS = response.body();
+                        //userHistories = orderResponseFromAPIS.getData();
+                        userHistories = response.body();
                         userHistoryCustomAdapter = new UserHistoryCustomAdapter(getActivity(), 1, userHistories);
                         lv_user_history.setAdapter(userHistoryCustomAdapter);
                     } else {
@@ -85,7 +86,7 @@ public class HistoryPageFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<OrderResponseFromAPI> call, Throwable t) {
+                public void onFailure(Call<List<OrderDataFromAPI>> call, Throwable t) {
                     Log.e("Get order", "Get order failed: " + t.getMessage());
                 }
             });

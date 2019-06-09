@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void logIn() {
-        String baseUrl = "https://grabfood-api.herokuapp.com";
+        String baseUrl = "https://cefood.herokuapp.com";
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)

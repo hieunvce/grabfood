@@ -117,7 +117,7 @@ public class OrderFood extends AppCompatActivity {
     }
 
     public void GetRestaurantProducts(String restaurantId) {
-        String baseUrl = "https://grabfood-api.herokuapp.com";
+        String baseUrl = "https://cefood.herokuapp.com";
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
