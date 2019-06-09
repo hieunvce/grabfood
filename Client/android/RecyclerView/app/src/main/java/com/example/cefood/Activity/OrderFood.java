@@ -5,12 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -131,15 +128,16 @@ public class OrderFood extends AppCompatActivity {
                 .build();
 
         GetProductsByRestaurantIdInterface apiService = retrofit.create(GetProductsByRestaurantIdInterface.class);
-        Call<ProductsResponseFromAPI> call = apiService.getProductsByRestaurantId(restaurantId);
-        call.enqueue(new Callback<ProductsResponseFromAPI>() {
+        Call<List<Product>> call = apiService.getProductsByRestaurantId(restaurantId);
+        call.enqueue(new Callback<List<Product>>() {
 
             @Override
-            public void onResponse(Call<ProductsResponseFromAPI> call, Response<ProductsResponseFromAPI> response) {
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 Log.d("Get products", "Get products Response Code: " + response.code());
                 if (response.code() == 200) {
-                    ProductsResponseFromAPI productsResponseFromAPI = response.body();
-                    List<com.example.cefood.Model.Product> products = productsResponseFromAPI.getData();
+                    //ProductsResponseFromAPI productsResponseFromAPI = response.body();
+                    //List<com.example.cefood.Model.Product> products = productsResponseFromAPI.getData();
+                    List<com.example.cefood.Model.Product> products = response.body();
                     ArrayList<com.example.cefood.Model.Product> arrayListProducts = (ArrayList) products;
                     productsArray = arrayListProducts;
                     for (Product product : arrayListProducts) {
@@ -152,7 +150,7 @@ public class OrderFood extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ProductsResponseFromAPI> call, Throwable t) {
+            public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e("Get products", "Get products error: " + t.getMessage());
             }
         });

@@ -11,9 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.cefood.API.RestaurantAPI.RestaurantAPIInterface;
@@ -31,7 +27,6 @@ import com.example.cefood.API.RestaurantAPI.RestaurantsResponseFromAPI;
 import com.example.cefood.CustomAdapter.RestaurantAdapter;
 import com.example.cefood.Model.Restaurant;
 import com.example.cefood.R;
-import com.example.cefood.Activity.location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,15 +164,16 @@ public class HomePageFragment extends Fragment {
                 .build();
 
         RestaurantAPIInterface apiService = retrofit.create(RestaurantAPIInterface.class);
-        Call<RestaurantsResponseFromAPI> call = apiService.getRestaurants();
-        call.enqueue(new Callback<RestaurantsResponseFromAPI>() {
+        Call<List<Restaurant>> call = apiService.getRestaurants();
+        call.enqueue(new Callback<List<Restaurant>>() {
 
             @Override
-            public void onResponse(Call<RestaurantsResponseFromAPI> call, Response<RestaurantsResponseFromAPI> response) {
+            public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                 Log.d("Get restaurants", "Get restaurant Response Code: " + response.code());
                 if (response.code() == 200) {
-                    RestaurantsResponseFromAPI restaurantsResponseFromAPI = response.body();
-                    List<Restaurant> restaurants = restaurantsResponseFromAPI.getData();
+                    //RestaurantsResponseFromAPI restaurantsResponseFromAPI = response.body();
+                    //List<Restaurant> restaurants = restaurantsResponseFromAPI.getData();
+                    List<Restaurant> restaurants = response.body();
                     arrayListRestaurants = (ArrayList) restaurants;
                     for (Restaurant restaurant:arrayListRestaurants) {
                         Log.d("Get Restaurant",restaurant.getName());
@@ -189,7 +185,7 @@ public class HomePageFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<RestaurantsResponseFromAPI> call, Throwable t) {
+            public void onFailure(Call<List<Restaurant>> call, Throwable t) {
                 Log.e("Get restaurants", "Get restaurants error: " + t.getMessage());
             }
         });
