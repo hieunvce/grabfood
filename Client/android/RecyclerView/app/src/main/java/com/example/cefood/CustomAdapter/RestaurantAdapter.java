@@ -110,7 +110,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(itemView.getContext(), "Selected "+ txtName.getText(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(itemView.getContext(), "Selected "+ txtName.getText(), Toast.LENGTH_SHORT).show();
                     TransferDataToOderFood(getAdapterPosition());
 
                 }

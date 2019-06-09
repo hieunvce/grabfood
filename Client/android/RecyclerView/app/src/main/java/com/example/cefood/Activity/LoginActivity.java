@@ -141,10 +141,36 @@ public class LoginActivity extends AppCompatActivity {
 
                     editor.putString("accessToken", jwtToken);
                     editor.commit();
-                    // Go to MainActivity
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+
+                    Call<UserResponseFromAPI> callUserInfo = apiService.getUserInfo(jwtToken);
+                    callUserInfo.enqueue(new Callback<UserResponseFromAPI>() {
+                        @Override
+                        public void onResponse(Call<UserResponseFromAPI> call, Response<UserResponseFromAPI> response) {
+                            if (response.code()==200){
+                                UserResponseFromAPI userInfo = response.body();
+
+                                // Save JWT to SharedPreferences
+                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                editor.putString("userName", userInfo.getData().get(0).getName().toString());
+                                editor.putString("userPhone",userInfo.getData().get(0).getPhone().toString());
+                                editor.commit();
+                                // Go to MainActivity
+                                Log.d("Login_Get_user_info", userInfo.getData().get(0).getName().toString() +" "+ userInfo.getData().get(0).getPhone().toString());
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserResponseFromAPI> call, Throwable t) {
+                            Log.d("Login", "Login Error.");
+                            Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
                     Log.d("Login", "Login Error.");
                     Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();

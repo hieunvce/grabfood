@@ -45,9 +45,9 @@ public class CartActivity extends AppCompatActivity implements OnItemClick {
     RecyclerView recyclerView;
     int totalPayment = 0;
     TextView txtTotalPayment;
+    String userAddress="Ho Chi Minh";
     TextView user_address;
     private static final int REQUEST_CODE = 0x01;
-    TextView comment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -99,62 +99,64 @@ public class CartActivity extends AppCompatActivity implements OnItemClick {
                 }
                 checkout();
 
-                Dialog myDialog;
-                myDialog = new Dialog(CartActivity.this);
-                myDialog.setContentView(R.layout.dialog_rating);
-
-                SmileRating smileRating = (SmileRating) myDialog.findViewById(R.id.smile_rating);
-                comment = (TextView) myDialog.findViewById(R.id.txtComment);
-                Button btnrating = (Button)myDialog.findViewById(R.id.btnrating);
-
-                smileRating.setOnSmileySelectionListener(new SmileRating.OnSmileySelectionListener() {
-                    @Override
-                    public void onSmileySelected(@BaseRating.Smiley int smiley, boolean reselected) {
-                        // reselected is false when user selects different smiley that previously selected one
-                        // true when the same smiley is selected.
-                        // Except if it first time, then the value will be false.
-                        switch (smiley) {
-                            case SmileRating.BAD:
-
-                                comment.setText("App cần cải thiện hơn");
-                                break;
-                            case SmileRating.GOOD:
-
-                                comment.setText("App khá tốt");
-                                break;
-                            case SmileRating.GREAT:
-
-                                comment.setText("App Rất tuyệt vời");
-                                break;
-                            case SmileRating.OKAY:
-
-                                comment.setText("App tạm được");
-                                break;
-                            case SmileRating.TERRIBLE:
-
-                                comment.setText("App khá tệ");
-                                break;
-                        }
-                    }
-                });
-
-                myDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    public void onCancel(DialogInterface dialog) {
-                        Intent intent = new Intent(CartActivity.this, MainActivity.class);
-                        finish();
-                        startActivity(intent);
-                    }
-                });
-
-                btnrating.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(CartActivity.this, MainActivity.class);
-                        finish();
-                        startActivity(intent);
-                    }
-                });
-                myDialog.show();
+//                // Rating (Useless)
+//                Dialog myDialog;
+//                myDialog = new Dialog(CartActivity.this);
+//                myDialog.setContentView(R.layout.dialog_rating);
+//
+//                SmileRating smileRating = (SmileRating) myDialog.findViewById(R.id.smile_rating);
+//                comment = (TextView) myDialog.findViewById(R.id.txtComment);
+//                Button btnrating = (Button)myDialog.findViewById(R.id.btnrating);
+//
+//                smileRating.setOnSmileySelectionListener(new SmileRating.OnSmileySelectionListener() {
+//                    @Override
+//                    public void onSmileySelected(@BaseRating.Smiley int smiley, boolean reselected) {
+//                        // reselected is false when user selects different smiley that previously selected one
+//                        // true when the same smiley is selected.
+//                        // Except if it first time, then the value will be false.
+//                        switch (smiley) {
+//                            case SmileRating.BAD:
+//
+//                                comment.setText("App cần cải thiện hơn");
+//                                break;
+//                            case SmileRating.GOOD:
+//
+//                                comment.setText("App khá tốt");
+//                                break;
+//                            case SmileRating.GREAT:
+//
+//                                comment.setText("App Rất tuyệt vời");
+//                                break;
+//                            case SmileRating.OKAY:
+//
+//                                comment.setText("App tạm được");
+//                                break;
+//                            case SmileRating.TERRIBLE:
+//
+//                                comment.setText("App khá tệ");
+//                                break;
+//                        }
+//                    }
+//                });
+//
+//                myDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                    public void onCancel(DialogInterface dialog) {
+//                        Intent intent = new Intent(CartActivity.this, MainActivity.class);
+//                        finish();
+//                        startActivity(intent);
+//                    }
+//                });
+//
+//                btnrating.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(CartActivity.this, MainActivity.class);
+//                        finish();
+//                        startActivity(intent);
+//                    }
+//                });
+//                myDialog.show();
+//                // End Rating (Useless)
             }
         });
     }
@@ -180,6 +182,7 @@ public class CartActivity extends AppCompatActivity implements OnItemClick {
             totalPayment += orderDetail.getQuantity() * orderDetail.getProduct().getPrice();
         }
         Log.d("CartActivity", "newTotalPayment " + totalPayment);
+
         txtTotalPayment.setText(Integer.toString(totalPayment));
         workWithSharePreferences.saveTotalPayment(totalPayment, sharedPreferences);
         workWithSharePreferences.saveOrderDetailArrayList(productsInCart, sharedPreferences);
@@ -214,10 +217,18 @@ public class CartActivity extends AppCompatActivity implements OnItemClick {
                 orderFormItem.setQuantity(item.getQuantity());
                 items.add(orderFormItem);
             }
+            String userName = sharedPreferences.getString("userName","");
+            String userPhone = sharedPreferences.getString("userPhone","");
             OrderForm orderForm = new OrderForm();
             orderForm.setItems(items);
             orderForm.setTotal(totalPayment);
-
+            orderForm.setName(userName);
+            orderForm.setAddress(userAddress);
+            orderForm.setPhone(userPhone);
+            Log.d("orderForm", "UserName " + orderForm.getName());
+            Log.d("orderForm", "UserAddress " + orderForm.getAddress());
+            Log.d("orderForm", "UserPhone " + orderForm.getPhone());
+            Log.d("orderForm", "Total " + orderForm.getTotal());
             Call<ResponseBody> call = apiService.addOrder(accessToken, orderForm);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -252,6 +263,7 @@ public class CartActivity extends AppCompatActivity implements OnItemClick {
 
                 if (!result.equals("")) {
                     user_address.setText(result);
+                    this.userAddress = result;
                 }
             } else {
             }

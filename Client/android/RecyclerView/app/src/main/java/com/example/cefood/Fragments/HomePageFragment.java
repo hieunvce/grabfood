@@ -67,7 +67,7 @@ public class HomePageFragment extends Fragment {
             @Override
             public void onRefresh() {
                 GetRestaurantsData();
-                Toast.makeText(getContext(), "Refresh!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Refresh!", Toast.LENGTH_LONG).show();
                 // To keep animation for 4 seconds
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
