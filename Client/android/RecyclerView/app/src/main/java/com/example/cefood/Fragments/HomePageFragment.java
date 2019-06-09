@@ -55,6 +55,7 @@ public class HomePageFragment extends Fragment {
     EditText search;
     private SearchView searchView;
     SwipeRefreshLayout swipeLayout;
+    private SearchView searchView;
 
     private static final int REQUEST_CODE = 0x01;
 
