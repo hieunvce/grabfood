@@ -18,7 +18,7 @@ public interface UserAPIInterface {
     Call<User> signUp(@Body EditUserForm editUserForm);
 
     @GET("users")
-    Call<UserResponseFromAPI> getUserInfo(@Header("Authorization") String authToken);
+    Call<UserResponseFromAPI> getUserInfo(@Header("Authorization") String authToken, @Body UserResponseFromAPI userResponseFromAPI);
 
     @PUT("users/{user_id}")
     Call<User> updateUserInfo(@Path("user_id") String user_id, @Header("Authorization") String authToken, @Body User user);

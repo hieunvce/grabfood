@@ -6,18 +6,16 @@ public class EditUserForm {
     private String name;
     private String gender;
     private String image;
-    private String phone;
 
     public EditUserForm() {
     }
 
-    public EditUserForm(String email, String password, String name, String gender, String image, String phone) {
+    public EditUserForm(String email, String password, String name, String gender, String image) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.gender = gender;
         this.image = image;
-        this.phone = phone;
     }
 
     public String getEmail() {
@@ -58,13 +56,5 @@ public class EditUserForm {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 }
