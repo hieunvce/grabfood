@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.example.cefood.API.UserAPI.AccessToken;
 import com.example.cefood.API.UserAPI.LoginForm;
 import com.example.cefood.API.UserAPI.UserAPIInterface;
-import com.example.cefood.API.UserAPI.UserResponseFromAPI;
 import com.example.cefood.R;
 import com.example.cefood.Services.UserNetworkProvider;
 
@@ -120,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                 .client(okHttpClient)
                 .build();
 
-        final UserAPIInterface apiService = retrofit.create(UserAPIInterface.class);
+        UserAPIInterface apiService = retrofit.create(UserAPIInterface.class);
         LoginForm loginForm = new LoginForm("local", this.username, this.password);
         Log.d("Login", "Login Form: " + loginForm.getStrategy() + loginForm.getEmail() + loginForm.getPassword());
         Call<AccessToken> call = apiService.logIn(loginForm);
@@ -140,35 +139,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     editor.putString("accessToken", jwtToken);
                     editor.commit();
-
-                    Call<UserResponseFromAPI> callUserInfo = apiService.getUserInfo(jwtToken);
-                    callUserInfo.enqueue(new Callback<UserResponseFromAPI>() {
-                        @Override
-                        public void onResponse(Call<UserResponseFromAPI> call, Response<UserResponseFromAPI> response) {
-                            if (response.code()==200){
-                                UserResponseFromAPI userInfo = response.body();
-
-                                // Save JWT to SharedPreferences
-                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                                editor.putString("userName", userInfo.getData().get(0).getName().toString());
-                                editor.putString("userPhone",userInfo.getData().get(0).getPhone().toString());
-                                editor.commit();
-                                // Go to MainActivity
-                                Log.d("Login_Get_user_info", userInfo.getData().get(0).getName().toString() +" "+ userInfo.getData().get(0).getPhone().toString());
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<UserResponseFromAPI> call, Throwable t) {
-                            Log.d("Login", "Login Error.");
-                            Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    // Go to MainActivity
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 } else {
                     Log.d("Login", "Login Error.");
                     Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
@@ -181,6 +154,5 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

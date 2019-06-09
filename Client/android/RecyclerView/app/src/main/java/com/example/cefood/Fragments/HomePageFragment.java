@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.cefood.API.RestaurantAPI.RestaurantAPIInterface;
 import com.example.cefood.API.RestaurantAPI.RestaurantsResponseFromAPI;
@@ -51,9 +53,8 @@ public class HomePageFragment extends Fragment {
     TextView user_address;
     Button btnSearch, btncancelSearch;
     EditText search;
-    SwipeRefreshLayout swipeLayout;
     private SearchView searchView;
-
+    SwipeRefreshLayout swipeLayout;
     private static final int REQUEST_CODE = 0x01;
 
     @Override
@@ -64,6 +65,31 @@ public class HomePageFragment extends Fragment {
         user_address = view.findViewById(R.id.tv_user_address);
         setHasOptionsMenu(true);
         GetRestaurantsData();
+
+        swipeLayout = view.findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                GetRestaurantsData();
+                Toast.makeText(getContext(), "Refresh!", Toast.LENGTH_LONG).show();
+                // To keep animation for 4 seconds
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        // Stop animation (This will be after 3 seconds)
+                        swipeLayout.setRefreshing(false);
+                    }
+                }, 1000); // Delay in millis
+            }
+        });
+
+        // Scheme colors for animation
+        swipeLayout.setColorSchemeColors(
+                getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light)
+        );
+
 
            return view;
     }
