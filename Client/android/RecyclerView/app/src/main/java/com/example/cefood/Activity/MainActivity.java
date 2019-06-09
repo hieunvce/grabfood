@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         sharedPreferences.edit().remove("userName").apply();
                         sharedPreferences.edit().remove("userPhone").apply();
                         Intent intentToLogin = new Intent(MainActivity.this, LoginActivity.class);
+                        intentToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intentToLogin);
                         break;
                     default:

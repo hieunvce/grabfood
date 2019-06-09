@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             if (!accessToken.isEmpty() && accessToken.length() > 0) {
                 // Go to MainActivity
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         }
@@ -142,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.commit();
                     // Go to MainActivity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else {
                     Log.d("Login", "Login Error.");

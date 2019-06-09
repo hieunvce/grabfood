@@ -35,8 +35,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".Activity.LoginActivity"
-            android:noHistory="true">
+            android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
