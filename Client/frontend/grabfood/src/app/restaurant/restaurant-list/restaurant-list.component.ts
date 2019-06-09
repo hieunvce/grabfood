@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { Restaurant } from "../service/restaurant.schema";
 import { RestaurantapiService } from "../service/restaurantapi.service";
+import { MatPaginatorModule, MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "app-restaurant-list",
@@ -12,7 +14,8 @@ export class RestaurantListComponent implements OnInit {
   public restaurants: Restaurant[];
   public isLoadingResults = true;
   displayedColumns: string[] = ["Img", "Name", "Address", "Action"];
-
+  public dataSource = new MatTableDataSource<Restaurant>(this.restaurants);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(public router: Router, public api: RestaurantapiService) {}
 
   ngOnInit() {
@@ -21,7 +24,9 @@ export class RestaurantListComponent implements OnInit {
     }
     this.api.getRestaurants().subscribe(
       res => {
-        this.restaurants = res.data;
+        this.restaurants = res;
+        this.dataSource = new MatTableDataSource<Restaurant>(this.restaurants);
+        this.dataSource.paginator = this.paginator;
         console.log(this.restaurants);
         this.isLoadingResults = false;
       },
@@ -30,5 +35,8 @@ export class RestaurantListComponent implements OnInit {
         this.isLoadingResults = false;
       }
     );
+  }
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

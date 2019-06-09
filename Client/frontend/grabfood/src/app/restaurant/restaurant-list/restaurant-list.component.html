@@ -11,8 +11,11 @@
 </div>
 
 <!--Restaurant table-->
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+</mat-form-field>
 <div class="mat-elevation-z8">
-  <table class="table-container" mat-table [dataSource]="restaurants" matSort matSortActive="Name" matSortDisableClear
+  <table class="table-container" mat-table [dataSource]="dataSource" matSort matSortActive="Name" matSortDisableClear
     matSortDirection="asc">
 
     <!--Restaurant Img column-->
@@ -55,4 +58,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

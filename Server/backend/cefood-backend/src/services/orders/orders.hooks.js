@@ -1,7 +1,7 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const accessFilter = async context => {
-  if (context.params.user != undefined && context.params.user){
+  if (context.params.user != undefined && context.params.user) {
     context.data.userId = context.params.user._id;
   } else {
     error = new Error('Access denied.');
@@ -11,7 +11,9 @@ const accessFilter = async context => {
 
 const queryFilter = async context => {
   if (context.params.user != undefined && context.params.user) {
-    context.params.query.userId = context.params.user._id;
+    if (context.params.user.role == "user") {
+      context.params.query.userId = context.params.user._id;
+    }
   } else {
     error = new Error('Access denied.');
     throw error;
@@ -19,16 +21,16 @@ const queryFilter = async context => {
 }
 
 const returnAllRecords = async context => {
-    context.params.paginate=false;
+  context.params.paginate = false;
 }
 
 module.exports = {
   before: {
-    all: [ authenticate('jwt')],
-    find: [queryFilter,returnAllRecords],
+    all: [authenticate('jwt')],
+    find: [queryFilter, returnAllRecords],
     get: [queryFilter],
     create: [accessFilter],
-    update: [accessFilter],
+    update: [],
     patch: [accessFilter],
     remove: []
   },

@@ -15,6 +15,8 @@ import { MenuListComponent } from './menu-list/menu-list.component';
 import { MenuAddComponent } from './menu-add/menu-add.component';
 import { MenuEditComponent } from './menu-edit/menu-edit.component';
 import { MenuDetailComponent } from './menu-detail/menu-detail.component';
+import { RestaurantNavbarComponent } from './restaurant-navbar/restaurant-navbar.component';
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -27,11 +29,10 @@ import { MenuDetailComponent } from './menu-detail/menu-detail.component';
     MenuListComponent,
     MenuAddComponent,
     MenuEditComponent,
-    MenuDetailComponent
+    MenuDetailComponent,
+    RestaurantNavbarComponent
   ],
-  entryComponents:[
-    ConfirmDialog
-  ],
+  entryComponents: [ConfirmDialog],
   imports: [
     BrowserModule,
     CommonModule,
@@ -39,7 +40,8 @@ import { MenuDetailComponent } from './menu-detail/menu-detail.component';
     AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule
   ]
 })
 export class RestaurantModule {}

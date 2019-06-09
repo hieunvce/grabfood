@@ -11,11 +11,10 @@ import {
   MatTableModule,
   MatMenuModule,
   MatProgressSpinnerModule,
-  MatPaginatorModule,
   MatSortModule,
   MatFormFieldModule
 } from '@angular/material';
-
+import { MatPaginatorModule } from "@angular/material/paginator";
 @NgModule({
   imports: [
     BrowserAnimationsModule,

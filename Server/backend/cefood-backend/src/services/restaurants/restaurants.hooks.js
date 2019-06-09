@@ -3,7 +3,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const adminAccessOnlyFilter = async context => {
   if (typeof (context.params.user.role) != undefined && context.params.user.role == 'admin') { 
   } else {
-    error = new Error('Access denied.')
+    error = new Error('Access denied.');
     throw error;
   }
 }

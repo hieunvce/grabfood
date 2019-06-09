@@ -1,5 +1,23 @@
+.container {
+  /* The image used */
+  background-image: url("../homepage/assets/background-image.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login-form-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .center-fit-content-card {
-    margin: 100px auto;
-    width: fit-content;
-    text-align: center;
+  width: fit-content;
+  text-align: center;
 }

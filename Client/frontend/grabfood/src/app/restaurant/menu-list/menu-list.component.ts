@@ -35,7 +35,7 @@ export class MenuListComponent implements OnInit {
     }
     this.api.getProductsByRestaurantId(this.restaurantId).subscribe(
       res => {
-        this.products = res.data;
+        this.products = res;
         this.isLoadingResults = false;
       },
       err => {

@@ -9,7 +9,7 @@ import { Observable, of, throwError } from "rxjs";
 import { catchError, tap, map } from "rxjs/operators";
 import { Restaurant } from "./restaurant.schema";
 
-const apiUrl = "https://grabfood-api.herokuapp.com/restaurants";
+const apiUrl = "https://cefood.herokuapp.com/restaurants";
 
 @Injectable({
   providedIn: "root"
