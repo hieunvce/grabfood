@@ -1,5 +1,7 @@
 package com.example.cefood.Activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.support.annotation.NonNull;
@@ -67,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_item_history:
                         ChangeFragment(NavigationFragment.History);
+                        break;
+                    case R.id.nav_item_cart:
+                        Intent intentToCart = new Intent(MainActivity.this, CartActivity.class);
+                        startActivity(intentToCart);
+                        break;
+                    case R.id.nav_item_logout:
+                        final SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+                        sharedPreferences.edit().remove("accessToken").apply();
+                        sharedPreferences.edit().remove("userName").apply();
+                        sharedPreferences.edit().remove("userPhone").apply();
+                        Intent intentToLogin = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intentToLogin);
                         break;
                     default:
                         return true;

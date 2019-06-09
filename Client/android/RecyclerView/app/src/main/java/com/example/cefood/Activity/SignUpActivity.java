@@ -25,10 +25,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    EditText ed_email, ed_password, ed_retype_password;
+    EditText ed_email, ed_password, ed_retype_password, ed_fullname, ed_phone;
     Button btn_signup;
 
-    private String email, password, retypePassword;
+    private String email, password, retypePassword, fullname, phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,9 @@ public class SignUpActivity extends AppCompatActivity {
         ed_email = findViewById(R.id.ed_email);
         ed_password = findViewById(R.id.ed_password);
         ed_retype_password = findViewById(R.id.ed_retype_password);
+        ed_fullname = findViewById(R.id.ed_fullname);
+        ed_phone = findViewById(R.id.ed_phone);
+
         btn_signup = findViewById(R.id.btn_signup);
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
@@ -60,12 +63,14 @@ public class SignUpActivity extends AppCompatActivity {
         this.email = ed_email.getText().toString();
         this.password = ed_password.getText().toString();
         this.retypePassword = ed_retype_password.getText().toString();
+        this.fullname = ed_fullname.getText().toString();
+        this.phone = ed_phone.getText().toString();
 
         boolean isValidUserInput = false;
 
-        if (email.isEmpty() || password.isEmpty() || retypePassword.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty() || retypePassword.isEmpty() || fullname.isEmpty() || phone.isEmpty()) {
             isValidUserInput = false;
-            Toast.makeText(SignUpActivity.this, "Please enter all 3 field!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, "Please enter all 5 field!", Toast.LENGTH_SHORT).show();
         } else if (!email.contains("@") || password.length() < 4 || !retypePassword.equals(password)) {
             Toast.makeText(SignUpActivity.this, "Please enter all 3 field!", Toast.LENGTH_SHORT).show();
             if (!email.contains("@")) {
@@ -85,7 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp() {
-        String baseUrl = "https://grabfood-api.herokuapp.com";
+        String baseUrl = "https://cefood.herokuapp.com";
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -98,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .build();
 
         UserAPIInterface apiService = retrofit.create(UserAPIInterface.class);
-        EditUserForm editUserForm = new EditUserForm(this.email, this.password, "", "", "");
+        EditUserForm editUserForm = new EditUserForm(this.email, this.password, this.fullname, "", "",this.phone);
         Log.d("SignUp", "SignUp Form: " + editUserForm.getEmail() + editUserForm.getPassword());
         Call<User> call = apiService.signUp(editUserForm);
 

@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,14 +18,17 @@ import com.example.cefood.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
+public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> implements Filterable {
     ArrayList<Restaurant> restaurants;
+    ArrayList<Restaurant> restaurantsfilter;
     Context context;
 
     public RestaurantAdapter(ArrayList<Restaurant> restaurants, Context context) {
         this.restaurants = restaurants;
         this.context = context;
+        this.restaurantsfilter = restaurants;
     }
 
     @NonNull
@@ -36,24 +41,56 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.txtName.setText(restaurants.get(i).getName());
-        viewHolder.txtAdress.setText(restaurants.get(i).getAddress());
+        viewHolder.txtName.setText(restaurantsfilter.get(i).getName());
+        viewHolder.txtAdress.setText(restaurantsfilter.get(i).getAddress());
         Picasso.get()
-                .load(restaurants.get(i).getImg())
+                .load(restaurantsfilter.get(i).getImg())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .resize(90,90)
                 .into(viewHolder.imgRestaurant);
     }
 
+
     @Override
     public int getItemCount() {
-        return restaurants.size();
+        return restaurantsfilter.size();
     }
-    public void RemoveItem(int position)
-    {
-        restaurants.remove(position);
-        notifyItemRemoved(position);
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    restaurantsfilter = restaurants;
+                    //saverestaurantsfilter = restaurants;
+                } else {
+                    List<Restaurant> filteredList = new ArrayList<>();
+                    for (Restaurant row : restaurants) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    restaurantsfilter = (ArrayList<Restaurant>) filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = restaurantsfilter;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                restaurantsfilter = (ArrayList<Restaurant>) filterResults.values;
+                notifyDataSetChanged();
+                //restaurants = saverestaurantsfilter;
+            }
+        };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -73,6 +110,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 @Override
                 public void onClick(View v) {
 
+                    Toast.makeText(itemView.getContext(), "Selected "+ txtName.getText(), Toast.LENGTH_SHORT).show();
                     TransferDataToOderFood(getAdapterPosition());
 
                 }

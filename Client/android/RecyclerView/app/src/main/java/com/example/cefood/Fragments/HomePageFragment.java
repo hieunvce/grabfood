@@ -1,16 +1,28 @@
 package com.example.cefood.Fragments;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.view.MenuItem;
 
 import com.example.cefood.API.RestaurantAPI.RestaurantAPIInterface;
 import com.example.cefood.API.RestaurantAPI.RestaurantsResponseFromAPI;
@@ -33,29 +45,85 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomePageFragment extends Fragment {
 
     ArrayList<Restaurant> arrayListRestaurants = new ArrayList<>();
-
+    ArrayList<Restaurant> arrayListRestaurantsSearch = new ArrayList<>();
     RecyclerView RecyclerViewHorizontal;
+    RestaurantAdapter restaurantAdapter;
+    TextView user_address;
+    Button btnSearch, btncancelSearch;
+    EditText search;
+    SwipeRefreshLayout swipeLayout;
+    private SearchView searchView;
 
-
+    private static final int REQUEST_CODE = 0x01;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         // Defines the xml file for the fragment
         View view = inflater.inflate(R.layout.home_page_fragment, parent, false);
         RecyclerViewHorizontal = view.findViewById(R.id.RView_RestaurantNearYou);
+        user_address = view.findViewById(R.id.tv_user_address);
+        setHasOptionsMenu(true);
         GetRestaurantsData();
-        return view;
+
+           return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.search, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search)
+                .getActionView();
+        searchView.setSearchableInfo(searchManager
+                .getSearchableInfo(getActivity().getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        // listening to search query text change
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // filter recycler view when query submitted
+                restaurantAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // filter recycler view when text is changed
+                restaurantAdapter.getFilter().filter(query);
+                return false;
+            }
+        });
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
     }
 
-    public  void initRecyclerViewHorizontal(){
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                final String result = data.getStringExtra("address");
+
+                if (!result.equals("")) {
+                    user_address.setText(result);
+                }
+            } else {
+            }
+        }
+    }
+
+    public  void initRecyclerViewHorizontal(ArrayList<Restaurant> arrayList){
         RecyclerViewHorizontal.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         RecyclerViewHorizontal.setLayoutManager(layoutManager);
-        RestaurantAdapter restaurantAdapter = new RestaurantAdapter(arrayListRestaurants,getActivity().getApplicationContext());
+        restaurantAdapter = new RestaurantAdapter(arrayList,getActivity().getApplicationContext());
         RecyclerViewHorizontal.setAdapter(restaurantAdapter);
     }
 
@@ -67,7 +135,6 @@ public class HomePageFragment extends Fragment {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .build();
-
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -88,7 +155,7 @@ public class HomePageFragment extends Fragment {
                     for (Restaurant restaurant:arrayListRestaurants) {
                         Log.d("Get Restaurant",restaurant.getName());
                     }
-                    initRecyclerViewHorizontal();
+                    initRecyclerViewHorizontal(arrayListRestaurants);
                 } else {
                     Log.d("Get restaurants", "Get restaurants Error.");
                 }
